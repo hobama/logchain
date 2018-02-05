@@ -9,3 +9,7 @@
 *.pyc
 *.pyc
 *.pyc
+communication/p2p/__pycache__/receiver.cpython-36.pyc
+communication/p2p/__pycache__/sender.cpython-36.pyc
+monitoring/__pycache__/monitoring.cpython-36.pyc
+communication/p2p/__pycache__/sender.cpython-36.pyc
