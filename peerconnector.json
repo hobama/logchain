@@ -5,12 +5,12 @@
     },
     "PEER_MGR_LIST": [
         {
-            "ID": "gw_trustpeer_jskimh",
+            "ID": "gw_trustpeer_jskim_home",
             "IP": "192.168.0.13",
             "PORT": 9999
         },
         {
-            "ID": "gw_trustpeer_jskiml",
+            "ID": "gw_trustpeer_jskim_lab",
             "IP": "192.168.0.29",
             "PORT": 9999
         }
