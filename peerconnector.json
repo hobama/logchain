@@ -1,6 +1,6 @@
 {
     "PEER_CONNECTOR": {
-        "ID": "gw1",
+        "ID": "gw3",
         "PORT": 8888
     },
     "PEER_MGR_LIST": [
