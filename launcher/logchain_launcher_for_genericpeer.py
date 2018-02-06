@@ -1,5 +1,6 @@
 import logging
 import sys
+from queue import Queue
 from PyQt5 import QtWidgets
 from peerproperty import nodeproperty
 from peerproperty import set_peer
@@ -12,6 +13,13 @@ from communication.msg_dispatch import b_type_queue_thread
 from communication.msg_dispatch import v_type_queue_thread
 from communication.peermgr import peerconnector
 from monitoring import monitoring
+from restapi_dispatch import save_tx_queue
+
+
+savetx_q = Queue()
+savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
+    1, "SaveTxQueueThread", savetx_q
+)
 
 
 # Logchain launcher function for GenericPeer
@@ -65,6 +73,13 @@ def main():
     )
     b_type_qt.start()
 
+    # savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
+    #     1, "SaveTxQueueThread", savetx_q
+    # )
+    savetxqueue_thread.start()
+    logging.debug('SaveTxQueueThread started')
+
+
 
 def initialize():
     logging.info('Start the blockchain initialization process...')
@@ -73,6 +88,9 @@ def initialize():
     file_controller.remove_all_voting()
     logging.info('Complete the blockchain initialization process...')
     set_peer.init_myIP()
+
+
+
 
 
 if __name__ == '__main__':
