@@ -1,11 +1,11 @@
 import sys, threading, time, queue
 from PyQt5 import QtWidgets
-from monitoring import Form
+from monitoring import monitoring
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
-    main_form = Form()
+    main_form = monitoring.Form()
 
     main_form.change_status_text("Server Status : NOMAL            13:22:09")
 
