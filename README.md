@@ -2,6 +2,6 @@
 _Blockchain platform for IoT_
 
 Features
-- Provides the light-weight consensus algorithm considering IoY domain requirements
+- Provides the light-weight consensus for IoT 
 - Run on Raspberry Pi platform
 
