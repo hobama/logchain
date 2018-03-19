@@ -1,6 +1,5 @@
 import logging
 import sys
-from queue import Queue
 from PyQt5 import QtWidgets
 from peerproperty import nodeproperty
 from peerproperty import set_peer
@@ -13,43 +12,34 @@ from communication.msg_dispatch import b_type_queue_thread
 from communication.msg_dispatch import v_type_queue_thread
 from communication.peermgr import peerconnector
 from monitoring import monitoring
-from restapi_dispatch import save_tx_queue
-
-
-savetx_q = Queue()
-savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
-    1, "SaveTxQueueThread", savetx_q
-)
 
 
 # Logchain launcher function for GenericPeer
 # GenericPeer performs the role of PeerConnector in parallel.
-def main():
-    monitoring.Main_form = monitoring.Form()
+def initialize_process_for_generic_peer():
 
     logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-    logging.info("Start Logchain launcher for TrustPeer...")
-    monitoring.Main_form.add_queue_data("log.Start Logchain launcher for GenericPeer...")
+    monitoring.log("log.Start Logchain launcher for GenericPeer...")
 
     initialize()
 
-    logging.info('Run processes for PeerConnector.')
+    monitoring.log("log.Run processes for PeerConnector.")
+
     if not peerconnector.start_peerconnector():
-        logging.info('Aborted because PeerConnector execution failed.')
+        monitoring.log('log.Aborted because PeerConnector execution failed.')
         return
 
-
     set_peer.set_my_peer_num()
-    logging.info("My peer num: " + str(nodeproperty.My_peer_num))
+    monitoring.log("log.My peer num: " + str(nodeproperty.My_peer_num))
 
     'Genesis Block Create'
     genesisblock.genesisblock_generate()
 
-    logging.info("Start a thread to receive messages from other peers.")
+    monitoring.log("log.Start a thread to receive messages from other peers.")
     recv_thread = receiver.ReceiverThread(
         1, "RECEIVER", nodeproperty.My_IP_address, nodeproperty.My_receiver_port)
     recv_thread.start()
-    logging.info("The thread for receiving messages from other peers has started.")
+    monitoring.log("log.The thread for receiving messages from other peers has started.")
 
 
     t_type_qt = t_type_queue_thread.TransactionTypeQueueThread(
@@ -73,28 +63,16 @@ def main():
     )
     b_type_qt.start()
 
-    # savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
-    #     1, "SaveTxQueueThread", savetx_q
-    # )
-    savetxqueue_thread.start()
-    logging.debug('SaveTxQueueThread started')
-
-
 
 def initialize():
-    logging.info('Start the blockchain initialization process...')
+    monitoring.log('log.Start the blockchain initialization process...')
     file_controller.remove_all_transactions()
     file_controller.remove_all_blocks()
     file_controller.remove_all_voting()
-    logging.info('Complete the blockchain initialization process...')
+    monitoring.log('log.Complete the blockchain initialization process...')
     set_peer.init_myIP()
 
 
-
-
-
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    main()
-    sys.exit(app.exec())
+    initialize_process_for_generic_peer()
 

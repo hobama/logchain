@@ -59,10 +59,14 @@ def receive_data(p_thrd_name, p_ip, p_port):
     tcp_socket.listen(5)
     transaction_count = 0
     num_block = 0
+    count = 1
     while True:
-        logging.debug("Waiting for connection...")
-        monitoring.Main_form.add_queue_data("log.Waiting for connection...")
+        monitoring.log("log.Waiting for connection...")
         request_sock, request_ip = tcp_socket.accept()
+
+        # # Node Add
+        # monitoring.add_peer('Node' + count, request_ip, 'node.png')
+        # count = count + 1
 
         while True:
             rcvd_total = []
@@ -77,7 +81,7 @@ def receive_data(p_thrd_name, p_ip, p_port):
                 temp += i.decode('utf-8')
 
             recv_data = temp
-            logging.debug("Rcvd data: "+recv_data)
+            monitoring.log("log.Rcvd data: " + recv_data)
 
             if recv_data == "":
                 break
@@ -174,8 +178,7 @@ def receive_data(p_thrd_name, p_ip, p_port):
                         dispatch_queue_list.V_type_q.put(recv_data)
                         dispatch_queue_list.Connected_socket_q.put(
                             request_sock)
-
-                        logging.debug("Voting received: " + recv_data)
+                        monitoring.log("log." + "Voting received: " + recv_data)
 
                         # block verification thread
                         # num_block = num_block + 1
@@ -201,9 +204,10 @@ def receive_data(p_thrd_name, p_ip, p_port):
 
                 try:
                     if Data_jobj['block_header']['type'] is 'B':
-                        logging.debug("Block received.")
+                        monitoring.log("log.Block received.")
                         # block verification thread
                         dispatch_queue_list.B_type_q.put(recv_data)
+                        # dispatch_queue_list.B_type_q.put(Data_jobj)
                         dispatch_queue_list.Connected_socket_q.put(
                             request_sock)
 

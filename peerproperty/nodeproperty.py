@@ -1,10 +1,14 @@
 ConnectedPeerList = None
 
 My_IP_address = None
+
+# The peer's number assigned in the logchain private network
 My_peer_num = 0
+
+# Listening port for consensus protocol
 My_receiver_port = 10654
-Total_peer_num = 4
-PeerConnector_Port = 0
+
+Total_peer_num = 0
 
 
 # Api_peer = "192.168.0.29"  # "163.239.200.182"
@@ -39,4 +43,3 @@ pri_key = None
 sync_flag = False
 
 tx_count = 0
-

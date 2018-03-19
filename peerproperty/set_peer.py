@@ -4,21 +4,22 @@ import platform
 import peerproperty.nodeproperty
 from peerproperty import nodeproperty
 from storage import file_controller
+from monitoring import monitoring
 
 
 def init_myIP():
-    logging.info("Set the peer's own IP address.")
+    monitoring.log("log.Set the peer's own IP address.")
     os = platform.system()
     if os == 'Linux':
-        logging.info("Peer's os is Linux.")
+        monitoring.log("log.Peer's os is Linux.")
         # For raspberry pi, we use wlan,
         # so we need to figure out the IP address in a different way.
         nodeproperty.My_IP_address = file_controller.get_my_ip_rpi()
     elif os == 'Windows':
-        logging.info("Peer's os is Windows.")
+        monitoring.log("log.Peer's os is Windows.")
         nodeproperty.My_IP_address = file_controller.get_my_ip()
 
-    logging.info("peer's IP: " + nodeproperty.My_IP_address)
+        monitoring.log("log.Peer's IP: " + nodeproperty.My_IP_address)
 
 
 # deprecated function
@@ -48,7 +49,9 @@ def set_peer():
 
 
 def set_total_peer_num() -> int:
-    nodeproperty.Total_peer_num = len(peerproperty.nodeproperty.ConnectedPeerList)
+    nodeproperty.Total_peer_num = len(
+        peerproperty.nodeproperty.ConnectedPeerList)
+    monitoring.log("log.total peer num: " + str(nodeproperty.Total_peer_num))
     return nodeproperty.Total_peer_num
 
 
@@ -62,4 +65,5 @@ def set_my_peer_num() -> int:
         else:
             p_num = p_num + 1
 
+    monitoring.log("log.my peer num: " + str(nodeproperty.My_peer_num))
     return nodeproperty.My_peer_num

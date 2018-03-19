@@ -10,6 +10,8 @@ from peerproperty import nodeproperty
 # port num이나 이런 것들은 추후에 계속 정해야 한다. 현재는 같은 네트워크 망 안에서 있을 때만 통신이 가능..
 from communication.peermgr import peermgr
 
+from monitoring import monitoring
+
 import json
 
 
@@ -60,22 +62,24 @@ def send(p_ip, p_msg, p_port, *args):
     receiver_addr = (p_ip, p_port)
     tcp_socket = socket(AF_INET, SOCK_STREAM)
     print("receiver addr =" + str(p_ip) + " , " + str(p_port))
+    monitoring.log("log." + "receiver addr =" + str(p_ip) + " , " + str(p_port))
+
     print(" ")
     try:
         tcp_socket.connect(receiver_addr)
         print("connected........")
-        print(" ")
+        monitoring.log("log." + "connected........")
         tcp_socket.settimeout(2)
         print(p_msg)
+        monitoring.log("log." + p_msg)
         tcp_socket.send(p_msg.encode('utf-8'))
-        print("end send")
-        print(" ")
+        monitoring.log("log.end send")
     except Exception as e:
         print(e)
 
     tcp_socket.close()
 
-    print("Sending complete")
+    monitoring.log("log.Sending complete")
 
 
 def send_to_all(p_msg):
@@ -87,17 +91,33 @@ def send_to_all(p_msg):
 
 # Send to all peers in ConnectedPeerList
 def send_to_all_peers(p_msg, p_port):
-    logging.debug("Send msg to all peers in ConnectedPeerList.")
+    monitoring.log("log.Send to all peers in ConnectedPeerList")
+    for peer in peerproperty.nodeproperty.ConnectedPeerList:
+        try:
+            send(peer[1], p_msg, p_port)
+        except Exception as e:
+            print(e)
+
+        monitoring.log("log.ConnectedPeerList ID: " + peer[0])
+        monitoring.log("log.ConnectedPeerList IP: " + peer[1])
+
+
+
+# Send to all peers except yourself
+def send_to_all_peers_except_itself(p_msg, p_port):
+    monitoring.log("log.Send to all peers in ConnectedPeerList")
     for peer in peerproperty.nodeproperty.ConnectedPeerList:
         if peer[1] == peerproperty.nodeproperty.My_IP_address:
-            logging.debug("Do not send msg it to peer itself.")
+            monitoring.log("log.Do not send msg it to peer itself.")
         else:
             try:
                 send(peer[1],p_msg, p_port)
             except Exception as e:
                 print(e)
-            logging.debug("test-connectorpeerlist "+ peer[0])
-            logging.debug("test-connectorpeerlist " + peer[1])
+
+            monitoring.log("log.ConnectedPeerList ID: "+ peer[0])
+            monitoring.log("log.ConnectedPeerList IP: " + peer[1])
+
 
 
 
@@ -109,4 +129,5 @@ def send_to_all_node(message, my_ip, my_port):
             send(addr, message, my_port)
         except Exception as e:
             print(e)
-    print('send block')
+
+    monitoring.log("log." + "send block")

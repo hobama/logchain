@@ -7,6 +7,8 @@ from communication.p2p import sender
 from peerproperty import set_peer
 from peerproperty import nodeproperty
 import os
+from monitoring import monitoring
+
 
 with open(os.getcwd() + os.sep + "peermgr.json", 'r') as f:
     peermgr_config = json.load(f)
@@ -28,34 +30,49 @@ connectedPeer_IP_q = Queue()
 
 # Add PeerMgr information to ConnectedPeerList by default.
 nodeproperty.ConnectedPeerList = [[peermgr_ID, peermgr_IP]]
-nodeproperty.PeerConnector_Port = peermgr_config['PEER_CONNECTOR_PORT']
+peerconnector_Port = peermgr_config['PEER_CONNECTOR_PORT']
 
 
 def start_peermgr() -> bool:
-    if nodeproperty.My_IP_address != peermgr_IP :
-        logging.debug('Only a node with a predefined IP can run PeerMgr.')
+    if nodeproperty.My_IP_address != peermgr_IP:
+        monitoring.log('log.Only a node with a predefined IP can run PeerMgr.')
         return False
 
-    logging.debug('Start listening thread to wait for connection of PeerConnector.')
+    monitoring.log(
+        'log.Start listening thread to wait for connection of PeerConnector.')
     listening_to_peerconnector_thr = ListeningToPeerConnectorThread(
         1, "ListeningToPeerConnectorThread",
         peermgr_IP, peermgr_Port,
         connectedPeer_rcvddata_q, connectedPeer_socket_q, connectedPeer_IP_q
     )
     listening_to_peerconnector_thr.start()
-    logging.debug('The listening thread is started to wait for the connection of PeerConnector.')
+    monitoring.log(
+        'log.The listening thread is started to wait for the connection of PeerConnector.')
 
-    logging.debug('Start a thread to manage ConnectedPeerList.')
+    monitoring.log('log.Start a thread to manage ConnectedPeerList.')
     managing_peertable_thr = ManagingConnectedPeerListThread(
         1, "ManagingConnectedPeerListThread",
         Predefined_peer_list,
         connectedPeer_rcvddata_q, connectedPeer_socket_q, connectedPeer_IP_q
     )
     managing_peertable_thr.start()
-    logging.debug('The thread to manage the ConnectedPeerList has started.')
+    monitoring.log(
+        'log.The thread to manage the ConnectedPeerList has started.')
 
     return True
 
+
+def getPeerIconfilename(peerid: str) -> str:
+    if "producer" in peerid:
+        return "producer"
+    elif "package" in peerid:
+        return "package"
+    elif "delivery" in peerid:
+        return "delivery"
+    elif "seller" in peerid:
+        return "seller"
+    else:
+        return "node"
 
 
 class ListeningToPeerConnectorThread(threading.Thread):
@@ -71,7 +88,6 @@ class ListeningToPeerConnectorThread(threading.Thread):
         self.socket_q = p_connectedPeer_socket_q
         self.socketip_q = p_connectedPeer_IP_q
 
-
     def run(self):
         addr = (self.listening_ip, self.listening_port)
         buf_size = 100
@@ -80,10 +96,10 @@ class ListeningToPeerConnectorThread(threading.Thread):
         tcp_socket.listen(5)
 
         while True:
-            logging.debug('Wait for PeerConnector to connect.')
+            monitoring.log('log.Wait for PeerConnector to connect.')
             request_sock, request_ip = tcp_socket.accept()
-            logging.debug('PeerConnector connected.')
-            logging.debug("PeerConnector IP: "+request_ip[0])
+            monitoring.log('log.PeerConnector connected.')
+            monitoring.log("log.PeerConnector IP: " + request_ip[0])
 
             while True:
                 rcvd_total = []
@@ -108,7 +124,6 @@ class ListeningToPeerConnectorThread(threading.Thread):
                     logging.debug(e)
 
 
-
 class ManagingConnectedPeerListThread(threading.Thread):
     def __init__(self, p_thrd_id, p_thrd_name,
                  p_peer_list,
@@ -121,7 +136,6 @@ class ManagingConnectedPeerListThread(threading.Thread):
         self.socket_q = p_connectedPeer_socket_q
         self.socketip_q = p_connectedPeer_IP_q
 
-
     def run(self):
         while True:
             rcvd_data = self.rcvddata_q.get()
@@ -131,36 +145,33 @@ class ManagingConnectedPeerListThread(threading.Thread):
             # Assuming the format of the incoming message is json
             rcvd_data_json = json.loads(rcvd_data)
             peerid = rcvd_data_json['ID']
-            logging.debug("The ID of ConnectedPeer: " + peerid)
-            logging.debug("The IP of ConnectedPeer: " + socketip)
+            monitoring.log("log.The ID of ConnectedPeer: " + peerid)
+            monitoring.log("log.The IP of ConnectedPeer: " + socketip)
 
             if peerid in self.peer_list:
-                logging.debug("Add new peer's IP to ConnectedPeerList.")
+                monitoring.log("log.Add new peer's IP to ConnectedPeerList.")
                 nodeproperty.ConnectedPeerList.append([peerid, socketip])
                 nodeproperty.ConnectedPeerList.sort()
                 request_sock.close()
+
                 connected_peer_list_json = json.dumps(
                     nodeproperty.ConnectedPeerList, indent=4, default=lambda o: o.__dict__, sort_keys=True)
-                logging.debug("Updated ConnectedPeerList(json format): "+connected_peer_list_json)
-                sender.send_to_all_peers(connected_peer_list_json, nodeproperty.PeerConnector_Port)
+                monitoring.log(
+                    "log.Updated ConnectedPeerList(json format): " + connected_peer_list_json)
+                sender.send_to_all_peers_except_itself(
+                    connected_peer_list_json, peerconnector_Port)
+
                 set_peer.set_my_peer_num()
                 set_peer.set_total_peer_num()
+
+                monitoring.add_peer(
+                    peerid, socketip, getPeerIconfilename(peerid))
 
             else:
                 request_sock.close()
                 # If there is no ID in the peer list, ignore it.
-                logging.debug("Ignore it because there is no corresponding ID in the predefined list.")
-
+                monitoring.log(
+                    "log.Ignore it because there is no corresponding ID in the predefined list.")
 
 
 # TODO: We should update ConnectedPeerList by periodically executing ping.
-
-
-
-
-
-
-
-
-
-
