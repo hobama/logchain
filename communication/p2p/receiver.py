@@ -85,156 +85,54 @@ def receive_data(p_thrd_name, p_ip, p_port):
 
             if recv_data == "":
                 break
-            # print("from ip : " + str(request_ip[0]))
-            # node mapping table 관리를 넣는다.
-            if recv_data == "new node":
-                if str(request_ip[0]) in nodeproperty.my_node.linked_node:
-                    print("already connected")
-                    break
-                else:
-                    print("new node connection received")
-                    nodeproperty.my_node.table_add(
-                        str(request_ip[0]), 'stable')
-                    # Property.my_node.print_table()
-                    nodeproperty.my_node.write_table()
+
+            Data_jobj = json.loads(recv_data)
+
+            try:
+                if Data_jobj['type'] is 'T':
+                    dispatch_queue_list.T_type_q.put(recv_data)
+                    dispatch_queue_list.Connected_socket_q.put(
+                        request_sock)
                     break
 
-                # 연결이 안되있는 노드로 부터 오는 메세지는 무시.
-                '''
+            except Exception as e:
+                print(" ")
+
+            try:
+
+                if Data_jobj['type'] is 'V':
+                    dispatch_queue_list.V_type_q.put(recv_data)
+                    dispatch_queue_list.Connected_socket_q.put(
+                        request_sock)
+                    monitoring.log("log." + "Voting received: " + recv_data)
+                    break
+
+            except Exception as e:
+                print(" ")
+
+            try:
+                if Data_jobj['block_header']['type'] is 'B':
+                    monitoring.log("log.Block received.")
+                    # block verification thread
+                    dispatch_queue_list.B_type_q.put(recv_data)
+                    dispatch_queue_list.Connected_socket_q.put(
+                        request_sock)
+                    break
+            except Exception as e:
                 print(recv_data)
-                if str(request_ip[0]) not in nodeproperty.my_node.linked_node:
-                    print("break??")
+
+            try:
+                if Data_jobj['type'] == 'C':
+                    file_controller.add_blockconfirm(recv_data)
+                    request_sock.close()
                     break
-                '''
 
-                # nodeproperty.my_node.table_update(str(request_ip[0]), 'true')
-                # Property.my_node.print_table()
-                # nodeproperty.my_node.write_table()
-                # node mapping table 관리
-            else:
-                # data_jobj = json.loads(recv_data)
-                Data_jobj = json.loads(recv_data)
+            except Exception as e:
+                print("Exception @receiver - data_jobj['type'] == 'C'", e)
 
-                try:
-                    if Data_jobj['type'] is 'T':
-                        dispatch_queue_list.T_type_q.put(recv_data)
-                        dispatch_queue_list.Connected_socket_q.put(
-                            request_sock)
-
-                        # print("  ")
-                        # print("Transaction received")
-                        # print("  ")
-                        # transaction_count = transaction_count + 1
-                        # # print(transaction_count)
-
-                        # file_controller.add_transaction(recv_data)
-                        # print("transaction added to mempool : ", recv_data)
-                        # print("  ")
-
-                        # # transaction_count = len(file_controller.get_transaction_list())
-                        # # print(transaction_count)
-                        # if transaction_count == 30:
-                        #     #print ("Enter transaciotn count")
-                        #     difficulty = 0
-                        #     transactions = file_controller.get_transaction_list()
-
-                        #     merkle = merkle_tree.MerkleTree()
-                        #     merkle_root = merkle.get_merkle(transactions)
-                        #     print("Transaction list Merkle _root : ", merkle_root)
-                        #     print(" ")
-                        #     'blind voting'
-
-                        #     print("Start blind voting")
-                        #     voting.blind_voting(merkle_root)
-                        #     print("  ")
-                        #     print("End voting")
-                        #     print("  ")
-
-                        #     '''
-                        #     time.sleep(5)
-
-                        #     difficulty = voting.result_voting()
-
-                        #     file_controller.remove_all_voting()
-                        #     if(difficulty > 0):
-                        #         block_generator.generate_block(
-                        #             difficulty, merkle_root, transactions)
-                        #     else :
-                        #         print("Wait block")
-
-                        #     file_controller.remove_all_transactions()
-                        #     '''
-                        #     transaction_count = 0
-
-                        # request_sock.close()
-                        break
-
-                except Exception as e:
-                    print(" ")
-
-                try:
-
-                    if Data_jobj['type'] is 'V':
-                        dispatch_queue_list.V_type_q.put(recv_data)
-                        dispatch_queue_list.Connected_socket_q.put(
-                            request_sock)
-                        monitoring.log("log." + "Voting received: " + recv_data)
-
-                        # block verification thread
-                        # num_block = num_block + 1
-
-                        # file_controller.add_voting(recv_data)
-
-                        # difficulty = voting.result_voting()
-
-                        # if (difficulty > 0):
-                        #     print("Enter block generator")
-                        #     block_generator.generate_block(
-                        #         difficulty, merkle_root, transactions)
-
-                        # else:
-                        #     print("")
-
-                        # request_sock.close()
-                        break
-
-                except Exception as e:
-                    print(" ")
-                    # remove all txs call
-
-                try:
-                    if Data_jobj['block_header']['type'] is 'B':
-                        monitoring.log("log.Block received.")
-                        # block verification thread
-                        dispatch_queue_list.B_type_q.put(recv_data)
-                        # dispatch_queue_list.B_type_q.put(Data_jobj)
-                        dispatch_queue_list.Connected_socket_q.put(
-                            request_sock)
-
-                        # file_controller.create_new_block(
-                        #     str(data_jobj['block_header']['block_number']), recv_data)
-
-                        # print("End create _new block")
-                        # file_controller.remove_all_transactions()
-                        # file_controller.remove_all_voting()
-
-                        # request_sock.close()
-                        break
-                except Exception as e:
-                    print(recv_data)
-
-                try:
-                    if Data_jobj['type'] == 'C':
-                        file_controller.add_blockconfirm(recv_data)
-                        request_sock.close()
-                        break
-
-                except Exception as e:
-                    print("Exception @receiver - data_jobj['type'] == 'C'", e)
-
-                print("No data in socket")
-                print(2)
-                break
+            print("No data in socket")
+            print(2)
+            break
 
     # close - listening server
     tcp_socket.close()
