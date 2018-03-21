@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import sys
 from flask import Flask
@@ -49,21 +48,6 @@ contract_list = [
 ]
 
 
-# def initialize_blockdbinfo():
-#     logging.info('Remove all transactions in mempool')
-#     file_controller.remove_all_transactions()
-#     file_controller.remove_all_blocks()
-#     logging.info('Remove all voting info ')
-#     file_controller.remove_all_voting()
-
-
-# def initialize_netinfo():
-#     nodeproperty.My_IP_address = file_controller.get_my_ip()
-#     set_peer.set_peer()
-#     # logging.info("my peer : " + nodeproperty.my_peer_num)
-#
-#     # node_mapping_table.set_node()와 set_peer()는 중복 기능이나, 일단 디버깅용으로 중복으로 유지함
-#     node_mapping_table.set_node()
 
 @app.route('/contract/deploy/', methods=['POST'])
 def deploy_contract():
