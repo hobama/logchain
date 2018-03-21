@@ -1,6 +1,6 @@
 import random
 import json
-from demo import transaction
+from demo.demo_savetx import transaction
 
 
 def transaction_generator():
