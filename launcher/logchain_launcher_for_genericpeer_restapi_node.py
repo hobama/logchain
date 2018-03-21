@@ -11,6 +11,8 @@ from peerproperty import set_peer
 from storage import file_controller
 from restapi_dispatch import query_block_queue
 from restapi_dispatch import save_tx_queue
+from restapi_dispatch import contract_deploy_queue
+from restapi_dispatch import contract_execution_queue
 from communication.peermgr import peerconnector
 from service.blockmanager import genesisblock
 from communication.msg_dispatch import dispatch_queue_list
@@ -220,14 +222,14 @@ def initialize_process_for_RESTAPInode():
     savetxqueue_thread.start()
     logging.debug('RESTAPIReqSaveTxQueueThread started')
 
-    contract_deploy_restapi_thread = save_tx_queue.RESTAPIReqContractDeployQueueThread(
+    contract_deploy_restapi_thread = contract_deploy_queue.RESTAPIReqContractDeployQueueThread(
         1, "RESTAPIReqContractDeployQueueThread", savetx_q
     )
     contract_deploy_restapi_thread.start()
     logging.debug('RESTAPIReqContractDeployQueueThread started')
 
 
-    contract_exec_restapi_thread = save_tx_queue.RESTAPIReqContractExecutionQueueThread(
+    contract_exec_restapi_thread = contract_execution_queue.RESTAPIReqContractExecutionQueueThread(
         1, "RESTAPIReqContractExecutionQueueThread", savetx_q
     )
     contract_exec_restapi_thread.start()
