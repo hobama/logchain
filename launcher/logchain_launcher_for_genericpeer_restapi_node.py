@@ -26,7 +26,9 @@ app = Flask(__name__)
 query_q = Queue()
 savetx_q = Queue()
 smartcontract_deploy_q = Queue()
+smartcontract_deploy_user_q = Queue()
 smartcontract_execute_q = Queue()
+smartcontract_execute_user_q = Queue()
 
 
 rulelist = [
@@ -63,10 +65,13 @@ contract_list = [
 #     # node_mapping_table.set_node()와 set_peer()는 중복 기능이나, 일단 디버깅용으로 중복으로 유지함
 #     node_mapping_table.set_node()
 
-@app.route('/sc/deploy/', methods=['POST'])
+@app.route('/contract/deploy/', methods=['POST'])
 def deploy_contract():
-    monitoring.log('log.request(deploy smart contract) rcvd...')
+    monitoring.log('log.request(deploy smart contract) rcvd.')
+
     smartcontract_deploy_q.put(request.json)
+    smartcontract_deploy_user_q.put(request.remote_addr)
+
     monitoring.log("log."+str(smartcontract_deploy_q))
     monitoring.log("log." + str(smartcontract_deploy_q.qsize()))
 
@@ -79,25 +84,37 @@ def deploy_contract():
     }
     contract_list.append(new_contract)
 
-    return jsonify({'smart contract': new_contract}), 201
+    return jsonify({
+        'smart contract': new_contract,
+        'smart contract hash address' : "You can see the address of your contract via the following link:"
+    }), 201
 
 
-@app.route('/sc/execute/', methods=['POST'])
+
+
+@app.route('/contract/execute/', methods=['POST'])
 def execute_contract():
-    monitoring.log('log.request(execute contract) rcvd...')
+    monitoring.log('log.request(execute contract) rcvd.')
+
     smartcontract_execute_q.put(request.json)
+    smartcontract_execute_user_q.put(request.remote_addr)
+
     monitoring.log("log."+str(smartcontract_execute_q))
     monitoring.log("log." + str(smartcontract_execute_q.qsize()))
 
     if not request.json or not 'contract_title' in request.json:
         abort(400)
+
     existing_contract = {
         'index': contract_list[-1]['index'] + 1,
         'contract_title': request.json['contract_title'],
         'contract_body': request.json.get('contract_body', "")
     }
 
-    return jsonify({'smart contract': new_contract}), 201
+    return jsonify({
+        'smart contract': existing_contract,
+        'smart contract result' : "You can see the result of the contract execution via the following link:"
+    }), 201
 
 
 
@@ -197,11 +214,27 @@ def initialize_process_for_RESTAPInode():
     queryqueue_thread.start()
     logging.debug('QueryQueueThread started')
 
-    savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
-        1, "SaveTxQueueThread", savetx_q
+    savetxqueue_thread = save_tx_queue.RESTAPIReqSaveTxQueueThread(
+        1, "RESTAPIReqSaveTxQueueThread", savetx_q
     )
     savetxqueue_thread.start()
-    logging.debug('SaveTxQueueThread started')
+    logging.debug('RESTAPIReqSaveTxQueueThread started')
+
+    contract_deploy_restapi_thread = save_tx_queue.RESTAPIReqContractDeployQueueThread(
+        1, "RESTAPIReqContractDeployQueueThread", savetx_q
+    )
+    contract_deploy_restapi_thread.start()
+    logging.debug('RESTAPIReqContractDeployQueueThread started')
+
+
+    contract_exec_restapi_thread = save_tx_queue.RESTAPIReqContractExecutionQueueThread(
+        1, "RESTAPIReqContractExecutionQueueThread", savetx_q
+    )
+    contract_exec_restapi_thread.start()
+    logging.debug('RESTAPIReqContractExecutionQueueThread started')
+
+
+
 
 
 # REST API Node launcher function

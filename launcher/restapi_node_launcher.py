@@ -165,7 +165,7 @@ if __name__ == "__main__":
     queryqueue_thread.start()
     logging.debug('QueryQueueThread started')
 
-    savetxqueue_thread = save_tx_queue.SaveTxQueueThread(
+    savetxqueue_thread = save_tx_queue.RESTAPIReqSaveTxQueueThread(
         1, "SaveTxQueueThread", savetx_q
     )
     savetxqueue_thread.start()
