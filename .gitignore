@@ -15,3 +15,8 @@ monitoring/__pycache__/monitoring.cpython-36.pyc
 communication/p2p/__pycache__/sender.cpython-36.pyc
 .vscode/launch.json
 .idea/logchain.iml
+*.pyc
+communication/msg_dispatch/__pycache__/__init__.cpython-36.pyc
+*.pyc
+peerconnector.json
+peermgr.json
