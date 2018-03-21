@@ -5,10 +5,8 @@
 # Created by: PyQt5 UI code generator 5.10.1
 #
 # WARNING! All changes made in this file will be lost!
-from demo import transaction_generator
-from PyQt5 import QtCore, QtGui, QtWidgets
+from demo.demo_savetx import transaction_generator
 import queue
-import requests
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -151,7 +149,7 @@ class Ui_LogchainDemo(object):
 
 
     def generate_transaction(self):
-        tx=transaction_generator.transaction_generator()
+        tx= transaction_generator.transaction_generator()
         transaction_queue.put(tx)
         self.textEdit.append(tx)
         self.textEdit.append("  ")
