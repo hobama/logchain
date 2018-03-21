@@ -10,9 +10,7 @@ from peerproperty import nodeproperty
 from peerproperty import set_peer
 from storage import file_controller
 from communication.p2p import node_mapping_table
-from restapi_dispatch import query_block_queue
-from restapi_dispatch import save_tx_queue
-
+from communication.restapi_dispatch import query_block_queue, save_tx_queue
 
 app = Flask(__name__)
 

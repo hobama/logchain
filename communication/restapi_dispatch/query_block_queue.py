@@ -1,8 +1,7 @@
 import threading
 import logging
-from queue import Queue
 import time
-from restapi_dispatch import queue_strategy
+from communication.restapi_dispatch import queue_strategy
 from monitoring import monitoring
 
 class QueryQueueThread(threading.Thread):

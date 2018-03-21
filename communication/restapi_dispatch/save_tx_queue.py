@@ -1,8 +1,4 @@
 import threading
-import logging
-from queue import Queue
-import time
-from restapi_dispatch import queue_strategy
 import json
 from service.transactionmanager import transaction
 from communication.p2p import sender
@@ -10,7 +6,7 @@ from peerproperty import nodeproperty
 from monitoring import monitoring
 
 
-class RESTAPIReqContractExecutionQueueThread(threading.Thread):
+class RESTAPIReqSaveTxQueueThread(threading.Thread):
     def __init__(self, p_thrd_id, p_thrd_name, p_inq):
         threading.Thread.__init__(self)
         self.thrd_id = p_thrd_id
@@ -32,11 +28,11 @@ class RESTAPIReqContractExecutionQueueThread(threading.Thread):
 def receive_event(p_thrd_name, p_inq):
     total_tx_count = 1
     while True:
-        monitoring.log("log.Waiting the request for contract execution.")
+        monitoring.log("log.Wait for transaction creation request.")
 
         dequeued = p_inq.get()
 
-        tx = transaction.Transaction('RT', dequeued)
+        tx = transaction.Transaction('T', dequeued)
         # temp = json.dumps(
         #     tx, indent=4, default=lambda o: o.__dict__, sort_keys=True)
 
@@ -47,9 +43,9 @@ def receive_event(p_thrd_name, p_inq):
         # sender.send_to_all(temp)
         sender.send_to_all_peers(temp,nodeproperty.My_receiver_port)
 
-        monitoring.log("log.Contract Execution request - rcvd: "+str(dequeued))
-        monitoring.log("log.Contract Execution request - rcvd(json): "+str(temp))
-        monitoring.log("log.Total number of Contract Execution request: "+str(total_tx_count ))
+        monitoring.log("log.Transaction creation request - rcvd: "+str(dequeued))
+        monitoring.log("log.Transaction creation request - rcvd(json): "+str(temp))
+        monitoring.log("log.Total number of transaction creation request: "+str(total_tx_count ))
         # monitoring.log("log."+str(p_inq.qsize()))
         total_tx_count = total_tx_count + 1
         # time.sleep(queue_strategy.SAVE_TX_DEQUEUE_INTERVAL)

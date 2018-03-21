@@ -1,8 +1,4 @@
 import threading
-import logging
-from queue import Queue
-import time
-from restapi_dispatch import queue_strategy
 import json
 from service.transactionmanager import transaction
 from communication.p2p import sender

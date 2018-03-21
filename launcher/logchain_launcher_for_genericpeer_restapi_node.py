@@ -9,10 +9,8 @@ from queue import Queue
 from peerproperty import nodeproperty
 from peerproperty import set_peer
 from storage import file_controller
-from restapi_dispatch import query_block_queue
-from restapi_dispatch import save_tx_queue
-from restapi_dispatch import contract_deploy_queue
-from restapi_dispatch import contract_execution_queue
+from communication.restapi_dispatch import save_tx_queue, contract_execution_queue
+from communication.restapi_dispatch import contract_deploy_queue, query_block_queue
 from communication.peermgr import peerconnector
 from service.blockmanager import genesisblock
 from communication.msg_dispatch import dispatch_queue_list
