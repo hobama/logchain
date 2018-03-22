@@ -53,10 +53,10 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
             monitoring.log("log.End voting")
 
 
-            # try
-            file_controller.remove_all_transactions()
-            file_controller.remove_all_voting()
-            # try
+            # # try
+            # file_controller.remove_all_transactions()
+            # file_controller.remove_all_voting()
+            # # try
 
             '''
             time.sleep(5)
