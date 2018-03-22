@@ -90,9 +90,9 @@ def receive_data(p_thrd_name, p_ip, p_port):
 
             try:
                 if Data_jobj['type'] in ('T','CT', 'RT') :
-                    dispatch_queue_list.T_type_q.put(recv_data)
-                    dispatch_queue_list.Connected_socket_q.put(
-                        request_sock)
+                    dispatch_queue_list.T_type_q.put((recv_data,request_sock))
+                    # dispatch_queue_list.Connected_socket_q.put(
+                    #     request_sock)
                     break
 
             except Exception as e:
@@ -101,9 +101,9 @@ def receive_data(p_thrd_name, p_ip, p_port):
 
             try:
                 if Data_jobj['type'] is 'V':
-                    dispatch_queue_list.V_type_q.put(recv_data)
-                    dispatch_queue_list.Connected_socket_q.put(
-                        request_sock)
+                    dispatch_queue_list.V_type_q.put((recv_data,request_sock))
+                    # dispatch_queue_list.Connected_socket_q.put(
+                    #     request_sock)
                     monitoring.log("log." + "Voting received: " + recv_data)
                     break
 
@@ -114,9 +114,9 @@ def receive_data(p_thrd_name, p_ip, p_port):
                 if Data_jobj['block_header']['type'] is 'B':
                     monitoring.log("log.Block received.")
                     # block verification thread
-                    dispatch_queue_list.B_type_q.put(recv_data)
-                    dispatch_queue_list.Connected_socket_q.put(
-                        request_sock)
+                    dispatch_queue_list.B_type_q.put((recv_data,request_sock))
+                    # dispatch_queue_list.Connected_socket_q.put(
+                    #     request_sock)
                     break
             except Exception as e:
                 print(recv_data)

@@ -27,8 +27,11 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
     transaction_count = 0
     while True:
         monitoring.log("log.Waiting for T type msg.")
-        recv_data = p_inq.get()
-        request_sock = p_socketq.get()
+        (recv_data,request_sock) = p_inq.get()
+        # request_sock = p_socketq.get()
+
+        # recv_data = p_inq.get()
+        # request_sock = p_socketq.get()
         Data_jobj = json.loads(recv_data)
         monitoring.log("log.T type msg rcvd: " + recv_data)
         monitoring.log("log.T Type - " + Data_jobj['type'])

@@ -11,3 +11,13 @@
 peerconnector.json
 peermgr.json
 _VotingStorage/Voting.txt
+_BlockStorage/2
+_BlockStorage/3
+_BlockStorage/4
+_BlockStorage/5
+_BlockStorage/6
+_BlockStorage/7
+_DataStorage/Transactions.txt
+_DataStorage/Transactions.txt
+_VotingStorage/Voting.txt
+*.pyc
