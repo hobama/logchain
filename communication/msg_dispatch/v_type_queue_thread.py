@@ -14,12 +14,11 @@ from queue import Queue
 
 
 class VotingTypeQueueThread(threading.Thread):
-    def __init__(self, p_thrd_id, p_thrd_name, p_inq, p_socket_inq):
+    def __init__(self, p_thrd_id, p_thrd_name, p_inq):
         threading.Thread.__init__(self)
         self.thrd_id = p_thrd_id
         self.thrd_name = p_thrd_name
         self.inq = p_inq
-        self.socketq = p_socket_inq
 
     def run(self):
         receive_event(self.thrd_name, self.inq, self.socketq)
