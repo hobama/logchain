@@ -30,9 +30,11 @@ def receive_event(p_thrd_name, p_inq):
     while True:
         monitoring.log("log.Waiting the request for contract execution.")
 
-        dequeued = p_inq.get()
+        restapi_request = p_inq.get()
 
-        tx = transaction.Transaction('RT', dequeued)
+        tx = transaction.Transaction('RT',restapi_request.remote_addr, restapi_request.json)
+
+
         # temp = json.dumps(
         #     tx, indent=4, default=lambda o: o.__dict__, sort_keys=True)
 

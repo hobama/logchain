@@ -12,13 +12,14 @@ class Transaction(object):
     """
 
     # def __init__(self, p_recv_addr, p_extra):
-    def __init__(self, tx_type, p_extra):  # rule tx에서는 recv addr이 불요하므로 제거
+    def __init__(self, p_tx_type, p_sender_ip, p_extra):
         """
 
         :param p_recv_addr:
         :param p_extra:
         """
-        self.type = tx_type
+        self.type = p_tx_type
+        self.sender_ip = p_sender_ip
         self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
         self.tx_id = "B" + self.timestamp
         self.extra_data = p_extra
@@ -26,6 +27,7 @@ class Transaction(object):
         # self.message = ''
         # self.pub_key = ''
         # self.signature = ''
+
 
 
 

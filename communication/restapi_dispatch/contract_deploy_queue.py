@@ -29,10 +29,9 @@ def receive_event(p_thrd_name, p_inq):
     total_tx_count = 1
     while True:
         monitoring.log("log.Waiting the request for contract deployment.")
+        restapi_request = p_inq.get()
 
-        dequeued = p_inq.get()
-
-        tx = transaction.Transaction('CT',dequeued)
+        tx = transaction.Transaction('CT',restapi_request.remote_addr, restapi_request.json)
         # temp = json.dumps(
         #     tx, indent=4, default=lambda o: o.__dict__, sort_keys=True)
 
@@ -43,7 +42,7 @@ def receive_event(p_thrd_name, p_inq):
         # sender.send_to_all(temp)
         sender.send_to_all_peers(temp,nodeproperty.My_receiver_port)
 
-        monitoring.log("log.Contract Deployment request - rcvd: "+str(dequeued))
+        monitoring.log("log.Contract Deployment request - rcvd: "+str(restapi_request.json))
         monitoring.log("log.Contract Deployment request - rcvd(json): "+str(temp))
         monitoring.log("log.Total number of Contract Deployment request: "+str(total_tx_count ))
         # monitoring.log("log."+str(p_inq.qsize()))

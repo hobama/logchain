@@ -30,9 +30,9 @@ def receive_event(p_thrd_name, p_inq):
     while True:
         monitoring.log("log.Wait for transaction creation request.")
 
-        dequeued = p_inq.get()
+        restapi_request = p_inq.get()
 
-        tx = transaction.Transaction('T', dequeued)
+        tx = transaction.Transaction('T',restapi_request.remote_addr, restapi_request.json)
         # temp = json.dumps(
         #     tx, indent=4, default=lambda o: o.__dict__, sort_keys=True)
 
@@ -43,7 +43,7 @@ def receive_event(p_thrd_name, p_inq):
         # sender.send_to_all(temp)
         sender.send_to_all_peers(temp,nodeproperty.My_receiver_port)
 
-        monitoring.log("log.Transaction creation request - rcvd: "+str(dequeued))
+        monitoring.log("log.Transaction creation request - rcvd: "+str(restapi_request))
         monitoring.log("log.Transaction creation request - rcvd(json): "+str(temp))
         monitoring.log("log.Total number of transaction creation request: "+str(total_tx_count ))
         # monitoring.log("log."+str(p_inq.qsize()))

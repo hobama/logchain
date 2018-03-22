@@ -53,8 +53,9 @@ contract_list = [
 def deploy_contract():
     monitoring.log('log.request(deploy smart contract) rcvd.')
 
-    smartcontract_deploy_q.put(request.json)
-    smartcontract_deploy_user_q.put(request.remote_addr)
+    smartcontract_deploy_q.put(request)
+    # smartcontract_deploy_q.put(request.json)
+    # smartcontract_deploy_user_q.put(request.remote_addr)
 
     monitoring.log("log."+str(smartcontract_deploy_q))
     monitoring.log("log." + str(smartcontract_deploy_q.qsize()))
@@ -80,8 +81,9 @@ def deploy_contract():
 def execute_contract():
     monitoring.log('log.request(execute contract) rcvd.')
 
-    smartcontract_execute_q.put(request.json)
-    smartcontract_execute_user_q.put(request.remote_addr)
+    smartcontract_execute_q.put(request)
+    # smartcontract_execute_q.put(request.json)
+    # smartcontract_execute_user_q.put(request.remote_addr)
 
     monitoring.log("log."+str(smartcontract_execute_q))
     monitoring.log("log." + str(smartcontract_execute_q.qsize()))
@@ -116,7 +118,10 @@ def get_rules():
 @app.route('/rules/', methods=['POST'])
 def create_rule():
     monitoring.log('log.request(create rule) rcvd...')
-    savetx_q.put(request.json)
+
+    savetx_q.put(request)
+    # savetx_q.put(request.json)
+
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
 
@@ -134,7 +139,7 @@ def create_rule():
 
 @app.route("/")
 def hello():
-    return "LogChain launcher for Generic Peer - REST API node"
+    return "logchain-s launcher for Generic Peer - REST API node"
 
 
 def initialize_process_for_generic_peer():
@@ -205,14 +210,14 @@ def initialize_process_for_RESTAPInode():
     logging.debug('RESTAPIReqSaveTxQueueThread started')
 
     contract_deploy_restapi_thread = contract_deploy_queue.RESTAPIReqContractDeployQueueThread(
-        1, "RESTAPIReqContractDeployQueueThread", savetx_q
+        1, "RESTAPIReqContractDeployQueueThread", smartcontract_deploy_q
     )
     contract_deploy_restapi_thread.start()
     logging.debug('RESTAPIReqContractDeployQueueThread started')
 
 
     contract_exec_restapi_thread = contract_execution_queue.RESTAPIReqContractExecutionQueueThread(
-        1, "RESTAPIReqContractExecutionQueueThread", savetx_q
+        1, "RESTAPIReqContractExecutionQueueThread", smartcontract_execute_q
     )
     contract_exec_restapi_thread.start()
     logging.debug('RESTAPIReqContractExecutionQueueThread started')
