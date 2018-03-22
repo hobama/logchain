@@ -100,7 +100,7 @@ def receive_data(p_thrd_name, p_ip, p_port):
 
 
             try:
-                if Data_jobj['type'] is 'V':
+                if Data_jobj['type'] == 'V':
                     dispatch_queue_list.V_type_q.put((recv_data,request_sock))
                     # dispatch_queue_list.Connected_socket_q.put(
                     #     request_sock)
@@ -111,7 +111,7 @@ def receive_data(p_thrd_name, p_ip, p_port):
                 print(" ")
 
             try:
-                if Data_jobj['block_header']['type'] is 'B':
+                if Data_jobj['block_header']['type'] == 'B':
                     monitoring.log("log.Block received.")
                     # block verification thread
                     dispatch_queue_list.B_type_q.put((recv_data,request_sock))

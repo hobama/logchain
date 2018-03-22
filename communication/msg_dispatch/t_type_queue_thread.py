@@ -40,7 +40,7 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
         file_controller.add_transaction(recv_data)
         monitoring.log("log.Transaction added to transaction pool: " + recv_data)
 
-        if transaction_count == voting.TransactionCountForConsensus or Data_jobj['type'] is 'CT' or Data_jobj['type'] is 'RT':
+        if (transaction_count == voting.TransactionCountForConsensus) or (Data_jobj['type'] == 'CT') or (Data_jobj['type'] == 'RT'):
             # difficulty = 0
 
             transaction.Transactions = file_controller.get_transaction_list()
