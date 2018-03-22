@@ -30,9 +30,9 @@ def receive_event(p_thrd_name, p_inq):
     while True:
         monitoring.log("log.Waiting the request for contract execution.")
 
-        restapi_request = p_inq.get()
+        (restapi_request_json, restapi_request_ip) = p_inq.get()
 
-        tx = transaction.Transaction('RT',restapi_request.remote_addr, restapi_request.json)
+        tx = transaction.Transaction('RT',restapi_request_ip, restapi_request_json)
 
 
         # temp = json.dumps(
@@ -45,7 +45,7 @@ def receive_event(p_thrd_name, p_inq):
         # sender.send_to_all(temp)
         sender.send_to_all_peers(temp,nodeproperty.My_receiver_port)
 
-        monitoring.log("log.Contract Execution request - rcvd: "+str(dequeued))
+        monitoring.log("log.Contract Execution request - rcvd: "+str(restapi_request_json))
         monitoring.log("log.Contract Execution request - rcvd(json): "+str(temp))
         monitoring.log("log.Total number of Contract Execution request: "+str(total_tx_count ))
         # monitoring.log("log."+str(p_inq.qsize()))

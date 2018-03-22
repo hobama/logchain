@@ -25,9 +25,7 @@ app = Flask(__name__)
 query_q = Queue()
 savetx_q = Queue()
 smartcontract_deploy_q = Queue()
-smartcontract_deploy_user_q = Queue()
 smartcontract_execute_q = Queue()
-smartcontract_execute_user_q = Queue()
 
 
 rulelist = [
@@ -53,9 +51,7 @@ contract_list = [
 def deploy_contract():
     monitoring.log('log.request(deploy smart contract) rcvd.')
 
-    smartcontract_deploy_q.put(request)
-    # smartcontract_deploy_q.put(request.json)
-    # smartcontract_deploy_user_q.put(request.remote_addr)
+    smartcontract_deploy_q.put((request.json,request.remote_addr))
 
     monitoring.log("log."+str(smartcontract_deploy_q))
     monitoring.log("log." + str(smartcontract_deploy_q.qsize()))
@@ -81,9 +77,7 @@ def deploy_contract():
 def execute_contract():
     monitoring.log('log.request(execute contract) rcvd.')
 
-    smartcontract_execute_q.put(request)
-    # smartcontract_execute_q.put(request.json)
-    # smartcontract_execute_user_q.put(request.remote_addr)
+    smartcontract_execute_q.put((request.json, request.remote_addr))
 
     monitoring.log("log."+str(smartcontract_execute_q))
     monitoring.log("log." + str(smartcontract_execute_q.qsize()))
@@ -119,8 +113,8 @@ def get_rules():
 def create_rule():
     monitoring.log('log.request(create rule) rcvd...')
 
-    savetx_q.put(request)
-    # savetx_q.put(request.json)
+
+    savetx_q.put((request.json, request.remote_addr))
 
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
