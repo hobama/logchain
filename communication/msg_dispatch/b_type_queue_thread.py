@@ -33,7 +33,10 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
             str(Data_jobj['block_header']['block_number']), recv_data)
 
         monitoring.log("log.End create _new block")
+
+        # try
         file_controller.remove_all_transactions()
         file_controller.remove_all_voting()
+        # try
 
         request_sock.close()

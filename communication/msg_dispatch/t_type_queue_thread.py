@@ -29,17 +29,16 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
         monitoring.log("log.Waiting for T type msg.")
         recv_data = p_inq.get()
         request_sock = p_socketq.get()
+        Data_jobj = json.loads(recv_data)
         monitoring.log("log.T type msg rcvd: " + recv_data)
+        monitoring.log("log.T Type - " + Data_jobj['type'])
         transaction_count = transaction_count + 1
 
         file_controller.add_transaction(recv_data)
-        monitoring.log("log.Transaction added to mempool: " + recv_data)
+        monitoring.log("log.Transaction added to transaction pool: " + recv_data)
 
-        # transaction_count = len(file_controller.get_transaction_list())
-
-        if transaction_count == voting.TransactionCountForConsensus:
-
-            difficulty = 0
+        if transaction_count == voting.TransactionCountForConsensus or Data_jobj['type'] is 'CT' or Data_jobj['type'] is 'RT':
+            # difficulty = 0
 
             transaction.Transactions = file_controller.get_transaction_list()
 
@@ -52,6 +51,12 @@ def receive_event(p_thrd_name, p_inq, p_socketq):
             monitoring.log("log.Start blind voting")
             voting.blind_voting(transaction.Merkle_root)
             monitoring.log("log.End voting")
+
+
+            # try
+            file_controller.remove_all_transactions()
+            file_controller.remove_all_voting()
+            # try
 
             '''
             time.sleep(5)

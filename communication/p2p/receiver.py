@@ -89,7 +89,7 @@ def receive_data(p_thrd_name, p_ip, p_port):
             Data_jobj = json.loads(recv_data)
 
             try:
-                if Data_jobj['type'] is 'T':
+                if Data_jobj['type'] in ('T','CT', 'RT') :
                     dispatch_queue_list.T_type_q.put(recv_data)
                     dispatch_queue_list.Connected_socket_q.put(
                         request_sock)
@@ -98,33 +98,8 @@ def receive_data(p_thrd_name, p_ip, p_port):
             except Exception as e:
                 print(" ")
 
-            try:
-                if Data_jobj['type'] is 'CT':
-                    dispatch_queue_list.CT_type_q.put(recv_data)
-                    dispatch_queue_list.Connected_socket_q.put(
-                        request_sock)
-                    break
-
-            except Exception as e:
-                print(" ")
-
 
             try:
-                if Data_jobj['type'] is 'RT':
-                    dispatch_queue_list.RT_type_q.put(recv_data)
-                    dispatch_queue_list.Connected_socket_q.put(
-                        request_sock)
-                    break
-
-            except Exception as e:
-                print(" ")
-
-
-
-
-
-            try:
-
                 if Data_jobj['type'] is 'V':
                     dispatch_queue_list.V_type_q.put(recv_data)
                     dispatch_queue_list.Connected_socket_q.put(
