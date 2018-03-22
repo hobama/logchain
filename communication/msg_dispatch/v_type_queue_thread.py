@@ -21,10 +21,10 @@ class VotingTypeQueueThread(threading.Thread):
         self.inq = p_inq
 
     def run(self):
-        receive_event(self.thrd_name, self.inq, self.socketq)
+        receive_event(self.thrd_name, self.inq)
 
 
-def receive_event(p_thrd_name, p_inq, p_socketq):
+def receive_event(p_thrd_name, p_inq):
     while True:
         monitoring.log("log.Waiting for V type msg")
         (recv_data,request_sock) = p_inq.get()

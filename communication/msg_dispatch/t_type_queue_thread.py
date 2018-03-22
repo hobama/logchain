@@ -19,10 +19,10 @@ class TransactionTypeQueueThread(threading.Thread):
         self.inq = p_inq
 
     def run(self):
-        receive_event(self.thrd_name, self.inq, self.socketq)
+        receive_event(self.thrd_name, self.inq)
 
 
-def receive_event(p_thrd_name, p_inq, p_socketq):
+def receive_event(p_thrd_name, p_inq):
     transaction_count = 0
     while True:
         monitoring.log("log.Waiting for T type msg.")
