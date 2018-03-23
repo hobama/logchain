@@ -1,52 +1,62 @@
 import pickle
-import time
+import importlib
 
-CONTRACT_ADDR = "_ContractStorage."
-SOURCE_ADDR = "smartcontract.Sources."
+CONTRACT_ADDR = "_ContractStorage\\"
+SOURCE_ADDR = "smartcontract\\Sources\\"
+SOURCE_PACKAGE = "smartcontract.Sources."
 
 
-class ContractManager():
-    def __init__(self):
-        pass
-
-    def deploy_contract(self, time_stamp, sourcefile, args):
-        contract = getattr(sourcefile, 'Contract')(*args)
+class ContractManager:
+    def deploy_contract(self, time_stamp, source, args=None):
         contract_addr = "C"+time_stamp
 
+        # 소스파일을 만들어주고
+        f_contract = open(SOURCE_ADDR + contract_addr + ".py", 'w')
+        f_contract.write(source)
+        f_contract.close()
+
+        # 그 모듈을 가져와서 클래스를 인스턴스화 해준다
+        contract = getattr(importlib.import_module(SOURCE_PACKAGE + contract_addr), 'Contract')
+
+        if args is None:
+            instance = contract()
+        elif args == '':
+            instance = contract()
+        else:
+            instance = contract(args)
+
+        # 인스턴스화된 클래스를 직렬화해서 저장한 뒤 _ContractStorage에 저장한다
+        f_contract = open(CONTRACT_ADDR + contract_addr, 'wb')
+        pickle.dump(instance, f_contract)
+        f_contract.close()
+
+        # 주소 값 및 상태 값을 리턴해줌
+        return {'contract_addr': contract_addr, 'state': True}
+
+    def execute_contract(self, contract_addr, function_name, args=None):
+        f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
+        contract = pickle.load(f_contract)
+
+        method = getattr(contract, function_name)
+
+        # run method
+        if args is None:
+            result = method()
+        elif args == '':
+            result = method()
+        else:
+            result = method(args)
+
+        f_contract.close()
+
+        # save state
         f_contract = open(CONTRACT_ADDR + contract_addr, 'wb')
         pickle.dump(contract, f_contract)
         f_contract.close()
 
+        # load state
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
         state = f_contract.read()
         f_contract.close()
 
-        print('Contract(' + contract_addr + ') deployed')
-        return {'contractAddr': contract_addr, 'state': state}
-
-    def execute_contract(self, contract_addr, function, args):
-        contractAddress = CONTRACT_ADDR + contract_addr
-        print(contractAddress)
-
-        # read contract file
-        fContract = open(contractAddress, 'rb')
-        contract = pickle.load(fContract)
-        print('Contract loaded')
-        method = getattr(contract, function)
-
-        # run method
-        result = method(*args)
-        fContract.close()
-
-        # save state
-        fContract = open(contractAddress, 'wb')
-        pickle.dump(contract, fContract)
-        fContract.close()
-
-        # load state
-        fContract = open(contractAddress, 'rb')
-        state = fContract.read()
-        fContract.close()
-
-        print('Contract run : result : ' + str(result))
         return {'result': result, 'state': state}
