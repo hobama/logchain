@@ -98,7 +98,6 @@ def execute_contract():
 
 
 
-
 @app.route('/rules/', methods=['GET'])
 def get_rules():
     logging.debug('request(query rulelist) rcvd...')
