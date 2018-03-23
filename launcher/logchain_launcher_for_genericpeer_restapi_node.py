@@ -132,16 +132,16 @@ def create_rule():
 
 @app.route('/info/tx/', methods=['GET'])
 def get_txinfo():
-    return openpage.SavedTxList
+    return jsonify(openpage.SavedTxList)
 
 
 @app.route('/info/contract/deployed/', methods=['GET'])
 def get_contract_deployed_info():
-    return openpage.DeployedSmartContractList
+    return jsonify(openpage.DeployedSmartContractList)
 
 @app.route('/info/contract/executed/', methods=['GET'])
 def get_contract_executed_info():
-    return openpage.ExecutedSmartContractList
+    return jsonify(openpage.ExecutedSmartContractList)
 
 
 @app.route("/")

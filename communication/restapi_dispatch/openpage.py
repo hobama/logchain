@@ -1,4 +1,6 @@
 
+
+# http://host:5000/info/tx/
 SavedTxList = [
     {
         "tx_addr": "Your transaction address",
@@ -8,7 +10,7 @@ SavedTxList = [
 ]
 
 
-
+# http://host:5000/info/contract/deployed/
 DeployedSmartContractList = [
     {
         "contract_addr": "Your smart contract address",
@@ -17,12 +19,13 @@ DeployedSmartContractList = [
     }
 ]
 
+
+# http://host:5000/info/contract/executed/
 ExecutedSmartContractList = [
     {
         "contract_addr": "Your smart contract address",
         "contract_title": "The title of your smart contract",
-        "contract_executed_time": "Executed time",
-
-}
+        "contract_executed_time": "Executed time"
+    }
 ]
 
