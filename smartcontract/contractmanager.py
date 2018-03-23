@@ -1,32 +1,13 @@
-import json
-import threading
 import pickle
 import time
-from queue import Queue
 
 CONTRACT_ADDR = "_ContractStorage."
 SOURCE_ADDR = "smartcontract.Sources."
 
-contract_transaction_queue = Queue()
 
-
-class ContractManager(threading.Thread):
+class ContractManager():
     def __init__(self):
-        threading.Thread.__init__(self)
-
-    def run(self):
-        while True:
-            transaction = contract_transaction_queue.get()
-
-            time_stamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
-
-            if transaction['type'] == 'CT':
-                # CT TYPE 시퀀스
-                self.deploy_contract(time_stamp, transaction['sourcepath'], transaction['args'])
-            elif transaction['type'] == 'RT':
-                # RT TYPE 시퀀스
-                result = self.execute_contract(time_stamp, transaction['contract_addr'], transaction['function'], transaction['args'])
-                print(result)
+        pass
 
     def deploy_contract(self, time_stamp, sourcefile, args):
         contract = getattr(sourcefile, 'Contract')(*args)
@@ -48,7 +29,7 @@ class ContractManager(threading.Thread):
         print(contractAddress)
 
         # read contract file
-        fContract = open(contractAddress, 'r')
+        fContract = open(contractAddress, 'rb')
         contract = pickle.load(fContract)
         print('Contract loaded')
         method = getattr(contract, function)
@@ -58,12 +39,12 @@ class ContractManager(threading.Thread):
         fContract.close()
 
         # save state
-        fContract = open(contractAddress, 'w')
+        fContract = open(contractAddress, 'wb')
         pickle.dump(contract, fContract)
         fContract.close()
 
         # load state
-        fContract = open(contractAddress, 'r')
+        fContract = open(contractAddress, 'rb')
         state = fContract.read()
         fContract.close()
 
