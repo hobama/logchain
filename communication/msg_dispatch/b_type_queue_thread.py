@@ -4,7 +4,10 @@ from queue import Queue
 import time
 import json
 from storage import file_controller
-from service.blockconsensus import voting
+from service.blockmanager import block
+
+from service.blockmanager import block_verify
+
 from communication.p2p import receiver
 from monitoring import monitoring
 
@@ -28,8 +31,11 @@ def receive_event(p_thrd_name, p_inq):
         Data_jobj = json.loads(recv_data)
         monitoring.log("log.B type msg rcvd: "+recv_data)
 
+
         file_controller.create_new_block(
             str(Data_jobj['block_header']['block_number']), recv_data)
+
+        block_verify.verify_tx_list(Data_jobj['tx_list'])
 
         monitoring.log("log.End create _new block")
 
