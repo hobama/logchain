@@ -5,7 +5,7 @@ import time
 from queue import Queue
 
 CONTRACT_ADDR = "_ContractStorage."
-SOURCE_ADDR = "SmartContractManager.Sources."
+SOURCE_ADDR = "smartcontract.Sources."
 
 contract_transaction_queue = Queue()
 
@@ -18,21 +18,18 @@ class ContractManager(threading.Thread):
         while True:
             transaction = contract_transaction_queue.get()
 
-            datas = json.dump(transaction, default=lambda o: o.__dict__, sort_keys=True)
-
             time_stamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
 
-            if datas['type'] == 'CT':
+            if transaction['type'] == 'CT':
                 # CT TYPE 시퀀스
-                self.deploy_contract(time_stamp, 'example.py', 10)
-
-            elif datas['type'] == 'RT':
+                self.deploy_contract(time_stamp, transaction['sourcepath'], transaction['args'])
+            elif transaction['type'] == 'RT':
                 # RT TYPE 시퀀스
-                result = self.execute_contract(time_stamp, 'C21341251325312', 'add', 3)
+                result = self.execute_contract(time_stamp, transaction['contract_addr'], transaction['function'], transaction['args'])
                 print(result)
 
-    def deploy_contract(self, time_stamp, sourcepath, args):
-        contract = getattr(SOURCE_ADDR+sourcepath, 'Contract')(*args)
+    def deploy_contract(self, time_stamp, sourcefile, args):
+        contract = getattr(sourcefile, 'Contract')(*args)
         contract_addr = "C"+time_stamp
 
         f_contract = open(CONTRACT_ADDR + contract_addr, 'wb')
