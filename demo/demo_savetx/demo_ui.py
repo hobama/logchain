@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 from demo.demo_savetx import transaction_generator
 import queue
+import requests
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -164,8 +165,8 @@ class Ui_LogchainDemo(object):
         tx = transaction_queue.get()
         self.textEdit_2.append("Transaction: ")
         self.textEdit_2.append(tx)
-        #url = requests_url
-        #requests.post(url,tx)
+        url = requests_url
+        requests.post(url,tx)
         self.textEdit_2.append(tx)
 
 
