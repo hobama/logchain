@@ -40,7 +40,7 @@ smartcontract_execute_q = Queue()
 
 
 @app.route('/contract/deploy/', methods=['POST'])
-def deploy_contract():
+def contract_deploy():
     monitoring.log('log.request(deploy smart contract) rcvd.')
 
 
@@ -64,7 +64,7 @@ def deploy_contract():
 
 
 @app.route('/contract/execute/', methods=['POST'])
-def execute_contract():
+def contract_execute():
     monitoring.log('log.request(execute contract) rcvd.')
 
     if not request.json or not 'contract_title' in request.json:
@@ -94,8 +94,8 @@ def execute_contract():
 
 
 
-@app.route('/save/', methods=['POST'])
-def create_rule():
+@app.route('/tx/save/', methods=['POST'])
+def tx_save():
     monitoring.log('log.request(save tx) rcvd...')
 
     if not request.json or not 'tx_title' in request.json:
@@ -137,7 +137,7 @@ def get_contract_executed_info():
 
 @app.route("/")
 def hello():
-    return "logchain-s launcher for Generic Peer - REST API node"
+    return "Logchain-s launcher for Generic Peer - REST API node"
 
 
 def initialize_process_for_generic_peer():
