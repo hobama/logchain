@@ -10,7 +10,7 @@ from peerproperty import set_peer
 from storage import file_controller
 from communication.restapi_dispatch import save_tx_queue, contract_execution_queue
 from communication.restapi_dispatch import contract_deploy_queue, query_block_queue
-from communication.restapi_dispatch import openpage
+from communication.restapi_dispatch import infopage
 from communication.peermgr import peerconnector
 from service.blockmanager import genesisblock
 from communication.msg_dispatch import dispatch_queue_list
@@ -29,22 +29,13 @@ smartcontract_deploy_q = Queue()
 smartcontract_execute_q = Queue()
 
 
-# rulelist = [
+# contract_list = [
 #     {
 #       "index": 1,
-#       "title": "Testing for MWC #1",
-#       "body": "abc"
+#       "contract_title": "Smart Contract for logchain",
+#       "contract_body": "sample code..."
 #     }
 # ]
-
-
-contract_list = [
-    {
-      "index": 1,
-      "contract_title": "Smart Contract for logchain",
-      "contract_body": "sample code..."
-    }
-]
 
 
 
@@ -52,9 +43,9 @@ contract_list = [
 def deploy_contract():
     monitoring.log('log.request(deploy smart contract) rcvd.')
 
+
     if not request.json or not 'contract_title' in request.json:
         abort(400)
-
 
     smartcontract_deploy_q.put((request.json,request.remote_addr))
 
@@ -132,16 +123,16 @@ def create_rule():
 
 @app.route('/info/tx/', methods=['GET'])
 def get_txinfo():
-    return jsonify(openpage.SavedTxList)
+    return jsonify(infopage.SavedTxList)
 
 
 @app.route('/info/contract/deployed/', methods=['GET'])
 def get_contract_deployed_info():
-    return jsonify(openpage.DeployedSmartContractList)
+    return jsonify(infopage.DeployedSmartContractList)
 
 @app.route('/info/contract/executed/', methods=['GET'])
 def get_contract_executed_info():
-    return jsonify(openpage.ExecutedSmartContractList)
+    return jsonify(infopage.ExecutedSmartContractList)
 
 
 @app.route("/")
