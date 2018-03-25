@@ -9,9 +9,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from demo.demo_smartcontract import smart_contract
 from demo.demo_smartcontract import request_test
+from demo.demo_smartcontract import run_smartcontract
 import json
 import requests
-requests_url =None
+requests_contract_url =None
+run_contract_url = None
 
 
 class Ui_Dialog(object):
@@ -19,7 +21,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(739, 539)
         self.pushButton = QtWidgets.QPushButton(Dialog)
-        self.pushButton.setGeometry(QtCore.QRect(10, 50, 121, 31))
+        self.pushButton.setGeometry(QtCore.QRect(10, 80, 121, 31))
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(152, 150, 121, 31))
@@ -28,7 +30,7 @@ class Ui_Dialog(object):
         self.pushButton_3.setGeometry(QtCore.QRect(550, 149, 121, 31))
         self.pushButton_3.setObjectName("pushButton_3")
         self.textEdit = QtWidgets.QTextEdit(Dialog)
-        self.textEdit.setGeometry(QtCore.QRect(140, 50, 431, 61))
+        self.textEdit.setGeometry(QtCore.QRect(130, 80, 221, 31))
         self.textEdit.setObjectName("textEdit")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(10, 10, 81, 21))
@@ -100,22 +102,32 @@ class Ui_Dialog(object):
         self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_5.setObjectName("line_5")
+        self.pushButton_4 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_4.setGeometry(QtCore.QRect(370, 80, 121, 31))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.textEdit_8 = QtWidgets.QTextEdit(Dialog)
+        self.textEdit_8.setGeometry(QtCore.QRect(500, 80, 221, 31))
+        self.textEdit_8.setObjectName("textEdit_8")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-        #Set URL
+        # Set deploy URL
         self.pushButton.clicked.connect(self.set_request_url)
 
-        #Deploy
+        # Set Run URL
+        self.pushButton_4.clicked.connect(self.set_run_contract_url)
+
+        # Deploy
         self.pushButton_2.clicked.connect(self.deploy_smart_contract)
 
-
+        #Run
+        self.pushButton_3.clicked.connect(self.run_smart_contract)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton.setText(_translate("Dialog", "<URL POST/>"))
+        self.pushButton.setText(_translate("Dialog", "<Deploy_URL/>"))
         self.pushButton_2.setText(_translate("Dialog", "{ Deploy }"))
         self.pushButton_3.setText(_translate("Dialog", "{ Run }"))
         self.label.setText(_translate("Dialog", "Logchain-S"))
@@ -127,25 +139,37 @@ class Ui_Dialog(object):
         self.toolButton_4.setText(_translate("Dialog", "Parameter"))
         self.label_4.setText(_translate("Dialog", "Response "))
         self.label_5.setText(_translate("Dialog", "Response "))
+        self.pushButton_4.setText(_translate("Dialog", "<Run_URL/>"))
 
     def set_request_url(self):
-        requests_url = self.textEdit.toPlainText()
-        self.textEdit_4.append("Request URL : "+requests_url)
+        requests_contract_url = self.textEdit.toPlainText()
+        self.textEdit_4.append("Request URL : "+requests_contract_url)
         self.textEdit_4.append("  ")
 
+    def set_run_contract_url(self):
+        run_contract_url = self.textEdit_8.toPlainText()
+        self.textEdit_7.append("Reun Contract URL : "+run_contract_url)
+        self.textEdit_7.append("  ")
 
     def deploy_smart_contract(self):
         #generate smartContract from input (title, body)
-        requests_url = self.textEdit.toPlainText()
+        requests_contract_url = self.textEdit.toPlainText()
         title=self.textEdit_2.toPlainText()
         body = self.textEdit_3.toPlainText()
         smartContract = smart_contract.smartContract(title,body)
         smartContract = json.dumps(smartContract, indent=4, default=lambda o: o.__dict__, sort_keys=True)
-        response=request_test.post_transaction(requests_url,smartContract)
+        response=request_test.post_transaction(requests_contract_url,smartContract)
         self.textEdit_4.append(str(response))
 
 
-
+    def run_smart_contract(self):
+        run_contract_url = self.textEdit_8.toPlainText()
+        address = self.textEdit_5.toPlainText()
+        parameter = self.textEdit_6.toPlainText()
+        RunSmartContract= run_smartcontract.runSmartContract(address,parameter)
+        RunSmartContract = json.dumps(RunSmartContract, indent=4, default=lambda o: o.__dict__, sort_keys=True)
+        response = request_test.post_transaction(run_contract_url, RunSmartContract)
+        self.textEdit_7.append(str(response))
 
 
 if __name__ == "__main__":
