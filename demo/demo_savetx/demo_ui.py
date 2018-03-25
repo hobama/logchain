@@ -6,10 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 from demo.demo_savetx import transaction_generator
-import queue
-import requests
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+from demo.demo_savetx import request_test
+
+import queue
 
 transaction_queue = queue.Queue()
 requests_url = None
@@ -162,12 +162,13 @@ class Ui_LogchainDemo(object):
         self.textEdit_2.append(requests_url)
 
     def send_transaction(self):
-        tx = transaction_queue.get()
-        self.textEdit_2.append("Transaction: ")
-        self.textEdit_2.append(tx)
-        url = requests_url
-        requests.post(url,tx)
-        self.textEdit_2.append(tx)
+        requests_url = self.textEdit_3.toPlainText()
+        tx= transaction_queue.get()
+        try:
+            response=request_test.post_transaction(requests_url,tx)
+            self.textEdit_2.append(str(response))
+        except Exception as e:
+            print(e)
 
 
 if __name__ == "__main__":
