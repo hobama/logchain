@@ -2,7 +2,7 @@ import time
 import json
 
 """
-    Construct Demo transaction class
+    Construct Demo smartContract class
 """
 
 class smartContract(object):
@@ -15,8 +15,6 @@ class smartContract(object):
         self.title = title
         self.body = body
         self.type = 'CT'
-
-
 
 '''
 # =====MODULE TEST=====

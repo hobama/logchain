@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from demo.demo_smartcontract import smart_contract
+from demo.demo_smartcontract import request_test
 import json
 import requests
 requests_url =None
@@ -134,14 +135,16 @@ class Ui_Dialog(object):
 
     def deploy_smart_contract(self):
         #generate smartContract from input (title, body)
+        requests_url = self.textEdit.toPlainText()
         title=self.textEdit_2.toPlainText()
         body = self.textEdit_3.toPlainText()
         smartContract = smart_contract.smartContract(title,body)
         smartContract = json.dumps(smartContract, indent=4, default=lambda o: o.__dict__, sort_keys=True)
-        self.textEdit_4.append(smartContract)
+        response=request_test.post_transaction(requests_url,smartContract)
 
-        #post smartContract
-        requests.post(requests_url,smartContract)
+        self.textEdit_4.append(str(response))
+
+
 
 
 
