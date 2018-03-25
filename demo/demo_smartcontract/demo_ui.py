@@ -7,6 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from demo.demo_smartcontract import smart_contract
+import json
+import requests
+requests_url =None
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -98,6 +103,14 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        #Set URL
+        self.pushButton.clicked.connect(self.set_request_url)
+
+        #Deploy
+        self.pushButton_2.clicked.connect(self.deploy_smart_contract)
+
+
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
@@ -113,6 +126,23 @@ class Ui_Dialog(object):
         self.toolButton_4.setText(_translate("Dialog", "Parameter"))
         self.label_4.setText(_translate("Dialog", "Response "))
         self.label_5.setText(_translate("Dialog", "Response "))
+    def set_request_url(self):
+        requests_url = self.textEdit.toPlainText()
+        self.textEdit_4.append("Request URL : "+requests_url)
+        self.textEdit_4.append("  ")
+
+
+    def deploy_smart_contract(self):
+        #generate smartContract from input (title, body)
+        title=self.textEdit_2.toPlainText()
+        body = self.textEdit_3.toPlainText()
+        smartContract = smart_contract.smartContract(title,body)
+        smartContract = json.dumps(smartContract, indent=4, default=lambda o: o.__dict__, sort_keys=True)
+        self.textEdit_4.append(smartContract)
+
+        #post smartContract
+        requests.post(requests_url,smartContract)
+
 
 
 if __name__ == "__main__":
