@@ -52,6 +52,8 @@ def contract_deploy():
     monitoring.log("log."+str(smartcontract_deploy_q))
     monitoring.log("log." + str(smartcontract_deploy_q.qsize()))
 
+    print(request.json["contract_body"])
+
 
     return jsonify({
         "contract_title": request.json["contract_title"],
