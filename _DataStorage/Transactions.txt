@@ -1,0 +1,1 @@
+{"extra_data": {"contract_addr": "C20180326160440", "contract_args": ["abc", "3"], "contract_function": "add_point", "index": 1}, "sender_ip": "192.168.0.29", "timestamp": "20180326172139", "tx_id": "B20180326172139", "type": "RT"}

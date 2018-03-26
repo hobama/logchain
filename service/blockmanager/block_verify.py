@@ -1,15 +1,27 @@
 import json
 from smartcontract import contractmanager
-
+from communication.restapi_dispatch import infopage
 
 def verify_tx_list(tx_list):
     contract_manager = contractmanager.ContractManager()
     for transaction in tx_list:
         data_jobj = json.loads(transaction)
         if data_jobj['type'] == 'CT':
-            contract_manager.deploy_contract(data_jobj['extra_data']['contract_body'], data_jobj['extra_data']['contract_args'])
+            contract_manager.deploy_contract(
+                data_jobj['timestamp'],
+                data_jobj['extra_data']['contract_body'],
+                data_jobj['extra_data']['contract_args']
+            )
+            infopage.addDeployedContract(data_jobj)
         elif data_jobj['type'] == 'RT':
-            contract_manager.execute_contract(data_jobj['extra_data']['contract_addr'], data_jobj['extra_data']['contract_function'], data_jobj['extra_data']['contract_args'])
+            contract_manager.execute_contract(
+                data_jobj['extra_data']['contract_addr'],
+                data_jobj['extra_data']['contract_function'],
+                data_jobj['extra_data']['contract_args']
+            )
+            infopage.addExecutedContract(data_jobj)
+        elif data_jobj['type'] == 'T':
+            infopage.addSavedTx(data_jobj)
 
 
         # data = json.dumps(transaction, indent=4, default=lambda o: o.__dict__, sort_keys=True)

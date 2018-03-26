@@ -1,8 +1,9 @@
 import pickle
 import importlib
+import os
 
-CONTRACT_ADDR = "_ContractStorage\\"
-SOURCE_ADDR = "smartcontract\\Sources\\"
+CONTRACT_ADDR = "_ContractStorage"+os.sep
+SOURCE_ADDR = "smartcontract"+os.sep+"Sources"+os.sep
 SOURCE_PACKAGE = "smartcontract.Sources."
 
 
@@ -33,7 +34,7 @@ class ContractManager:
         # 주소 값 및 상태 값을 리턴해줌
         return {'contract_addr': contract_addr, 'state': True}
 
-    def execute_contract(self, contract_addr, function_name, args=None):
+    def execute_contract(self, contract_addr, function_name, args):
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
         contract = pickle.load(f_contract)
 
@@ -45,7 +46,7 @@ class ContractManager:
         elif args == '':
             result = method()
         else:
-            result = method(args)
+            result = method(*args)
 
         f_contract.close()
 
