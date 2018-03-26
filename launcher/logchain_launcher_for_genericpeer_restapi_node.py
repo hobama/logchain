@@ -46,8 +46,8 @@ def contract_deploy():
     # content = request.get_json(silent=True)
     # jsondump = json.dumps(content, default=lambda o: o.__dict__, sort_keys=True)
     # print(jsondump)
-    data = request.json
-    print("data is"+format(data))
+    # data = request.json
+    # print("data is"+format(data))
 
     if not request.json or not 'contract_title' in request.json:
         abort(400)
