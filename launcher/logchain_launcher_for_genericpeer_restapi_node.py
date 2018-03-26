@@ -1,5 +1,6 @@
 import logging
 import sys
+import json
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -42,7 +43,11 @@ smartcontract_execute_q = Queue()
 @app.route('/contract/deploy/', methods=['POST'])
 def contract_deploy():
     monitoring.log('log.request(deploy smart contract) rcvd.')
-
+    # content = request.get_json(silent=True)
+    # jsondump = json.dumps(content, default=lambda o: o.__dict__, sort_keys=True)
+    # print(jsondump)
+    data = request.json
+    print("data is"+format(data))
 
     if not request.json or not 'contract_title' in request.json:
         abort(400)
