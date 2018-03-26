@@ -1,18 +1,25 @@
 import requests
-from demo.demo_savetx import transaction_generator
 import json
-def post_transaction(url,tx):
+
+
+def deploy_smartContract(url,smartContract):
+    headers = {
+        'content-type': "application/json",
+        'cache-control': "no-cache",
+    }
     url = url
-    tx = tx
-    print(tx)
-    response=requests.post(url,data=json.dumps(tx))
+    print(url)
+    response = requests.request("POST", url, data=json.dumps(smartContract), headers=headers)
     return response
 
 
+def run_smartContract(url,runSmartContract):
+    headers = {
+        'content-type': "application/json",
+        'cache-control': "no-cache",
+    }
+    url = url
+    print(url)
+    response = requests.request("POST", url, data=json.dumps(runSmartContract), headers=headers)
+    return response
 
-if __name__ == "__main__":
-    url = "http://163.239.200.180:5000/tx/save"
-    #tx = transaction_generator.transaction_generator()
-    tx = "test"
-    response=post_transaction(url,tx)
-    print(response)

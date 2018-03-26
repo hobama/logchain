@@ -1,5 +1,4 @@
 import random
-import json
 
 def transaction_generator():
     tx= {"tx_title":None,"tx_body":None}

@@ -1,17 +1,16 @@
-import time
-import json
 
-"""
-    Construct Demo run smartContract class
-"""
 
-class runSmartContract(object):
+def generate_runSmartContract(contract_addr,contract_function,contract_args):
 
-    def __init__(self, address, parameter):  # rule tx에서는 recv addr이 불요하므로 제거
-        """
-        :param title
-        :param body
-        """
-        self.parameter = parameter
-        self.address = address
-        self.type = 'RT'
+    runSmartContract = {"contract_addr":None,"contract_function":None,"contract_args":None}
+
+    runSmartContract["contract_addr"] =contract_addr
+    runSmartContract["contract_function"] = contract_function
+    runSmartContract["contract_args"] = contract_args
+    return runSmartContract
+
+'''
+if __name__ == '__main__':
+    sample=generate_smartcontract('1','2','3')
+    print(sample)
+'''
