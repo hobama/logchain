@@ -1,5 +1,5 @@
 import json
-from smartcontract import contractmanager
+from service.smartcontract import contractmanager
 from communication.restapi_dispatch import infopage
 
 def verify_tx_list(tx_list):

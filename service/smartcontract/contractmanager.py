@@ -3,8 +3,8 @@ import importlib
 import os
 
 CONTRACT_ADDR = "_ContractStorage"+os.sep
-SOURCE_ADDR = "smartcontract"+os.sep+"Sources"+os.sep
-SOURCE_PACKAGE = "smartcontract.Sources."
+SOURCE_ADDR = "service"+os.sep+"smartcontract"+os.sep+"Sources"+os.sep
+SOURCE_PACKAGE = "service.smartcontract.Sources."
 
 
 class ContractManager:
