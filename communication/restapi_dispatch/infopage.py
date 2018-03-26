@@ -10,12 +10,12 @@ SavedTxList = [
 ]
 
 def addSavedTx(transaction):
-    saved_tx = {
-        'tx_id': transaction.tx_id,
-        'tx_from_ip': transaction.sender_ip,
-        'tx_body': transaction.extra_data
-    }
-    SavedTxList.append(saved_tx)
+    # saved_tx = {
+    #     'tx_id': transaction.tx_id,
+    #     'tx_from_ip': transaction.sender_ip,
+    #     'tx_body': transaction.extra_data
+    # }
+    SavedTxList.append(transaction)
 
 
 
@@ -30,12 +30,12 @@ DeployedSmartContractList = [
 ]
 
 def addDeployedContract(deployed_contract):
-    deployed_cont = {
-        'tx_id': deployed_contract.tx_id,
-        'tx_from_ip': deployed_contract.sender_ip,
-        'tx_body': deployed_contract.extra_data
-    }
-    DeployedSmartContractList.append(deployed_cont)
+    # deployed_cont = {
+    #     'tx_id': deployed_contract.tx_id,
+    #     'tx_from_ip': deployed_contract.sender_ip,
+    #     'tx_body': deployed_contract.extra_data
+    # }
+    DeployedSmartContractList.append(deployed_contract)
 
 
 
@@ -49,11 +49,11 @@ ExecutedSmartContractList = [
 ]
 
 def addExecutedContract(executed_contract):
-    deployed_cont = {
-        'tx_id': executed_contract.tx_id,
-        'tx_from_ip': executed_contract.sender_ip,
-        'tx_body': executed_contract.extra_data
-    }
-    ExecutedSmartContractList.append(deployed_cont)
+    # deployed_cont = {
+    #     'tx_id': executed_contract.tx_id,
+    #     'tx_from_ip': executed_contract.sender_ip,
+    #     'tx_body': executed_contract.extra_data
+    # }
+    ExecutedSmartContractList.append(executed_contract)
 
 
