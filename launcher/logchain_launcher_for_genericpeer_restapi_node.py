@@ -225,9 +225,6 @@ def initialize_process_for_RESTAPInode():
     logging.debug('RESTAPIReqContractExecutionQueueThread started')
 
 
-
-
-
 # REST API Node launcher function
 if __name__ == "__main__":
     logging.basicConfig(stream = sys.stderr, level = logging.DEBUG)

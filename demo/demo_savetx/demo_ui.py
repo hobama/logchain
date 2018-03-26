@@ -10,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from demo.demo_savetx import request_test
 
 import queue
-
+import json
 transaction_queue = queue.Queue()
 requests_url = None
 
@@ -150,9 +150,10 @@ class Ui_LogchainDemo(object):
 
 
     def generate_transaction(self):
+
         tx= transaction_generator.transaction_generator()
         transaction_queue.put(tx)
-        self.textEdit.append(tx)
+        self.textEdit.append(json.dumps(tx,indent=4))
         self.textEdit.append("  ")
         self.textEdit.append("  ")
 
@@ -166,7 +167,7 @@ class Ui_LogchainDemo(object):
         tx= transaction_queue.get()
         try:
             response=request_test.post_transaction(requests_url,tx)
-            self.textEdit_2.append(str(response))
+            self.textEdit_2.append(str(response.text))
         except Exception as e:
             print(e)
 

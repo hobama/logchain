@@ -154,8 +154,8 @@ class Ui_Dialog(object):
     def deploy_smart_contract(self):
         #generate smartContract from input (title, body)
         requests_contract_url = self.textEdit.toPlainText()
-        title=self.textEdit_2.toPlainText()
-        body = self.textEdit_3.toPlainText()
+        contract_title=self.textEdit_2.toPlainText()
+        contract_body = self.textEdit_3.toPlainText()
         smartContract = smart_contract.smartContract(title,body)
         smartContract = json.dumps(smartContract, indent=4, default=lambda o: o.__dict__, sort_keys=True)
         response=request_test.post_transaction(requests_contract_url,smartContract)
