@@ -1,5 +1,6 @@
 import pickle
 import importlib
+import os
 
 CONTRACT_ADDR = "_ContractStorage"+os.sep
 SOURCE_ADDR = "smartcontract"+os.sep+"Sources"+os.sep
