@@ -49,7 +49,7 @@ def contract_deploy():
     # data = request.json
     # print("data is"+format(data))
 
-    if not request.json or not 'contract_title' in request.json:
+    if not request.json or not 'contract_title' in request.json or not 'contract_body' in request.json or not 'contract_args' in request.json:
         abort(400)
 
     smartcontract_deploy_q.put((request.json,request.remote_addr))
@@ -63,6 +63,7 @@ def contract_deploy():
     return jsonify({
         "contract_title": request.json["contract_title"],
         "contract_body": request.json["contract_body"],
+        "contract_args": request.json["contract_args"],
         'info' : "You can see the deployed contract address list via the following link:"
                  "http://host:5000/info/contract/deployed/"
     }), 201
@@ -74,7 +75,7 @@ def contract_deploy():
 def contract_execute():
     monitoring.log('log.request(execute contract) rcvd.')
 
-    if not request.json or not 'contract_title' in request.json:
+    if not request.json or not 'contract_addr' in request.json or not 'contract_function' in request.json or not 'contract_args' in request.json:
         abort(400)
 
 
@@ -85,6 +86,8 @@ def contract_execute():
 
     return jsonify({
         "contract_addr": request.json["contract_addr"],
+        "contract_function": request.json["contract_function"],
+        "contract_args": request.json["contract_args"],
         'info' : "You can see the executed contract list via the following link:"
                  "http://host:5000/info/contract/executed/"
     }), 201
