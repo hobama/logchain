@@ -1,15 +1,20 @@
 {
     "PEER_MGR": {
-        "ID": "pc producer Jaesun",
+        "ID": "pc producer",
         "IP": "192.168.0.29",
         "PORT": 9999
     },
     "PEER_CONNECTOR_PORT": 8888,
     "PEER_LIST": [
-        "gw1 processor Donghyun",
-        "gw2 package Daeun",
-        "gw3 delivery Sangrok",
-        "gw4 delivery Soohwan",
-        "gw7 seller Saad"
+        "gw1 processor",
+        "gw2 package",
+        "gw3 delivery",
+        "gw4 delivery",
+        "gw5 delivery",
+        "gw6 delivery",
+        "gw7 seller",
+        "gw8 delivery",
+        "gw9 delivery",
+        "gw10 delivery"
     ]
 }

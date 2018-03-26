@@ -1,11 +1,11 @@
 {
     "PEER_CONNECTOR": {
-        "ID": "gw1 processor Donghyun",
+        "ID": "gw1 processor",
         "PORT": 8888
     },
     "PEER_MGR_LIST": [
         {
-            "ID": "pc producer Jaesun",
+            "ID": "pc producer",
             "IP": "192.168.0.29",
             "PORT": 9999
         }
