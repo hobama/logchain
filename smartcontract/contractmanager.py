@@ -34,7 +34,7 @@ class ContractManager:
         # 주소 값 및 상태 값을 리턴해줌
         return {'contract_addr': contract_addr, 'state': True}
 
-    def execute_contract(self, contract_addr, function_name, **args):
+    def execute_contract(self, contract_addr, function_name, args):
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
         contract = pickle.load(f_contract)
 
@@ -46,7 +46,7 @@ class ContractManager:
         elif args == '':
             result = method()
         else:
-            result = method(args)
+            result = method(*args)
 
         f_contract.close()
 
