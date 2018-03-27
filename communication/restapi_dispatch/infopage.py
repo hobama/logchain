@@ -1,13 +1,22 @@
 
 
 # http://host:5000/info/tx/
-SavedTxList = [
-    # {
-    #     "tx_id": "The transaction ID",
-    #     "tx_from_ip": "The IP of transaction sender",
-    #     "tx_body": "Saved transaction data"
-    # }
-]
+SavedTxList = []
+
+# http://host:5000/info/contract/deployed/
+DeployedSmartContractList = []
+
+# http://host:5000/info/contract/deployed/result/
+DeployedSmartContractResultList = []
+
+
+# http://host:5000/info/contract/executed/
+ExecutedSmartContractList = []
+
+# http://host:5000/info/contract/executed/result/
+ExecutedSmartContractResultList = []
+
+
 
 def addSavedTx(transaction):
     # saved_tx = {
@@ -20,14 +29,6 @@ def addSavedTx(transaction):
 
 
 
-# http://host:5000/info/contract/deployed/
-DeployedSmartContractList = [
-    # {
-    #     "smart_contract_tx_id": "The deployed smart contract transaction ID",
-    #     "smart_contract_tx_from_ip": "The IP of transaction sender",
-    #     "smart_contract_tx_body": "Deployed smart contract transaction data"
-    # }
-]
 
 def addDeployedContract(deployed_contract):
     # deployed_cont = {
@@ -37,16 +38,11 @@ def addDeployedContract(deployed_contract):
     # }
     DeployedSmartContractList.append(deployed_contract)
 
+def addDeployedContractResult(deployed_contract_result):
+    DeployedSmartContractResultList.append(deployed_contract_result)
 
 
-# http://host:5000/info/contract/executed/
-ExecutedSmartContractList = [
-    # {
-    #     "smart_contract_tx_id": "The executed smart contract transaction ID",
-    #     "smart_contract_tx_from_ip": "The IP of transaction sender",
-    #     "smart_contract_tx_body": "Executed smart contract transaction data"
-    # }
-]
+
 
 def addExecutedContract(executed_contract):
     # deployed_cont = {
@@ -55,5 +51,8 @@ def addExecutedContract(executed_contract):
     #     'tx_body': executed_contract.extra_data
     # }
     ExecutedSmartContractList.append(executed_contract)
+
+def addExecutedContractResult(executed_contract_result):
+    ExecutedSmartContractResultList.append(executed_contract_result)
 
 

@@ -30,36 +30,14 @@ smartcontract_deploy_q = Queue()
 smartcontract_execute_q = Queue()
 
 
-# contract_list = [
-#     {
-#       "index": 1,
-#       "contract_title": "Smart Contract for logchain",
-#       "contract_body": "sample code..."
-#     }
-# ]
-
-
-
 @app.route('/contract/deploy/', methods=['POST'])
 def contract_deploy():
     monitoring.log('log.request(deploy smart contract) rcvd.')
-    # content = request.get_json(silent=True)
-    # jsondump = json.dumps(content, default=lambda o: o.__dict__, sort_keys=True)
-    # print(jsondump)
-    # data = request.json
-    # print("data is"+format(data))
-
     if not request.json or not 'contract_title' in request.json or not 'contract_body' in request.json or not 'contract_args' in request.json:
         abort(400)
-
     smartcontract_deploy_q.put((request.json,request.remote_addr))
-
     monitoring.log("log."+str(smartcontract_deploy_q))
     monitoring.log("log." + str(smartcontract_deploy_q.qsize()))
-
-    print(request.json["contract_body"])
-
-
     return jsonify({
         "contract_title": request.json["contract_title"],
         "contract_body": request.json["contract_body"],
@@ -77,13 +55,9 @@ def contract_execute():
 
     if not request.json or not 'contract_addr' in request.json or not 'contract_function' in request.json or not 'contract_args' in request.json:
         abort(400)
-
-
     smartcontract_execute_q.put((request.json, request.remote_addr))
-
     monitoring.log("log."+str(smartcontract_execute_q))
     monitoring.log("log." + str(smartcontract_execute_q.qsize()))
-
     return jsonify({
         "contract_addr": request.json["contract_addr"],
         "contract_function": request.json["contract_function"],
@@ -94,34 +68,14 @@ def contract_execute():
 
 
 
-# @app.route('/rules/', methods=['GET'])
-# def get_rules():
-#     logging.debug('request(query rulelist) rcvd...')
-#     query_q.put("rulelist")
-#     logging.debug(str(query_q))
-#     logging.debug(query_q.qsize())
-#     return jsonify({'rulelist': rulelist})
-
-
-
 @app.route('/tx/save/', methods=['POST'])
 def tx_save():
     monitoring.log('log.request(save tx) rcvd...')
-
     if not request.json or not 'tx_title' in request.json:
         abort(400)
-
     savetx_q.put((request.json, request.remote_addr))
-
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
-
-    # rule = {
-    #     'index': rulelist[-1]['index'] + 1,
-    #     'title': request.json['title'],
-    #     'body': request.json.get('body', "")
-    # }
-    # rulelist.append(rule)
 
     return jsonify({
         "tx_title": request.json["tx_title"],
@@ -140,9 +94,19 @@ def get_txinfo():
 def get_contract_deployed_info():
     return jsonify(infopage.DeployedSmartContractList)
 
+@app.route('/info/contract/deployed/result/', methods=['GET'])
+def get_contract_deployed_result_info():
+    return jsonify(infopage.DeployedSmartContractResultList)
+
+
 @app.route('/info/contract/executed/', methods=['GET'])
 def get_contract_executed_info():
     return jsonify(infopage.ExecutedSmartContractList)
+
+@app.route('/info/contract/executed/result/', methods=['GET'])
+def get_contract_executed_result_info():
+    return jsonify(infopage.ExecutedSmartContractResultList)
+
 
 
 @app.route("/")
