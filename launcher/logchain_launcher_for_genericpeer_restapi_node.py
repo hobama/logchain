@@ -87,25 +87,25 @@ def tx_save():
 
 @app.route('/info/tx/', methods=['GET'])
 def get_txinfo():
-    return infopage.SavedTxList
+    return jsonify(infopage.SavedTxList)
 
 
 @app.route('/info/contract/deployed/', methods=['GET'])
 def get_contract_deployed_info():
-    return infopage.DeployedSmartContractList
+    return jsonify(infopage.DeployedSmartContractList)
 
 @app.route('/info/contract/deployed/result/', methods=['GET'])
 def get_contract_deployed_result_info():
-    return infopage.DeployedSmartContractResultList
+    return jsonify(infopage.DeployedSmartContractResultList)
 
 
 @app.route('/info/contract/executed/', methods=['GET'])
 def get_contract_executed_info():
-    return infopage.ExecutedSmartContractList
+    return jsonify(infopage.ExecutedSmartContractList)
 
 @app.route('/info/contract/executed/result/', methods=['GET'])
 def get_contract_executed_result_info():
-    return infopage.ExecutedSmartContractResultList
+    return jsonify(infopage.ExecutedSmartContractResultList)
 
 
 
