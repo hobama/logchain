@@ -24,7 +24,7 @@ class ContractManager:
         elif args == '':
             instance = contract()
         else:
-            instance = contract(*args)
+            instance = contract(args)
 
         # 인스턴스화된 클래스를 직렬화해서 저장한 뒤 _ContractStorage에 저장한다
         f_contract = open(CONTRACT_ADDR + contract_addr, 'wb')
