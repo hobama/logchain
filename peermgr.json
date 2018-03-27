@@ -6,15 +6,15 @@
     },
     "PEER_CONNECTOR_PORT": 8888,
     "PEER_LIST": [
-        "gw1 processor",
-        "gw2 package",
-        "gw3 delivery",
-        "gw4 delivery",
-        "gw5 delivery",
-        "gw6 delivery",
-        "gw7 seller",
-        "gw8 delivery",
-        "gw9 delivery",
-        "gw10 delivery"
+        "gw1",
+        "gw2",
+        "gw3",
+        "gw4",
+        "gw5",
+        "gw6",
+        "gw7",
+        "gw8",
+        "gw9",
+        "gw10"
     ]
 }
