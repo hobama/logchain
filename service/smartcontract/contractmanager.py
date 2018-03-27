@@ -19,12 +19,16 @@ class ContractManager:
         # 그 모듈을 가져와서 클래스를 인스턴스화 해준다
         contract = getattr(importlib.import_module(SOURCE_PACKAGE + contract_addr), 'Contract')
 
+
         if args is None:
             instance = contract()
         elif args == '':
             instance = contract()
         else:
-            instance = contract(args)
+            if type(args) is list:
+                instance = contract(*args)
+            else:
+                instance = contract(args)
 
         # 인스턴스화된 클래스를 직렬화해서 저장한 뒤 _ContractStorage에 저장한다
         f_contract = open(CONTRACT_ADDR + contract_addr, 'wb')
@@ -46,7 +50,10 @@ class ContractManager:
         elif args == '':
             result = method()
         else:
-            result = method(*args)
+            if type(args) is list:
+                result = method(*args)
+            else:
+                result = method(args)
 
         f_contract.close()
 
