@@ -36,7 +36,10 @@ class ContractManager:
         f_contract.close()
 
         # 주소 값 및 상태 값을 리턴해줌
-        return {'contract_addr': contract_addr, 'state': True}
+        return {'contract_addr': contract_addr, 'state': "Deployed"}
+
+
+
 
     def execute_contract(self, contract_addr, function_name, args):
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
@@ -65,6 +68,7 @@ class ContractManager:
         # load state
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
         state = f_contract.read()
+
         f_contract.close()
 
-        return {'result': result, 'state': state}
+        return {'contract_addr': contract_addr, 'result': result, 'state': "Executed"}

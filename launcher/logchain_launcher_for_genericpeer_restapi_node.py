@@ -105,7 +105,7 @@ def get_contract_executed_info():
 
 @app.route('/info/contract/executed/result/', methods=['GET'])
 def get_contract_executed_result_info():
-    return jsonify(infopage.ExecutedSmartContractResultList.read().decode('utf-8'))
+    return jsonify(infopage.ExecutedSmartContractResultList)
 
 
 
