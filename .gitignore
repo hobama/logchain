@@ -13,3 +13,5 @@ peermgr.json
 _BlockStorage/*
 *.txt
 *.pyc
+build/*
+dist/*
