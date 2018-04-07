@@ -8,7 +8,7 @@ SOURCE_PACKAGE = "service.smartcontract.Sources."
 
 
 class ContractManager:
-    def deploy_contract(self, time_stamp, source, args=None):
+    def deploy_contract(self, time_stamp, source, args, tx_id):
         contract_addr = "C"+time_stamp
 
         # 소스파일을 만들어주고
@@ -36,12 +36,12 @@ class ContractManager:
         f_contract.close()
 
         # 주소 값 및 상태 값을 리턴해줌
-        return {'contract_addr': contract_addr, 'state': "Deployed"}
+        return {'tx_id': tx_id, 'contract_addr': contract_addr, 'state': "Deployed"}
 
 
 
 
-    def execute_contract(self, contract_addr, function_name, args):
+    def execute_contract(self, contract_addr, function_name, args, tx_id):
         f_contract = open(CONTRACT_ADDR + contract_addr, 'rb')
         contract = pickle.load(f_contract)
 
@@ -71,4 +71,4 @@ class ContractManager:
 
         f_contract.close()
 
-        return {'contract_addr': contract_addr, 'result': result, 'state': "Executed"}
+        return {'tx_id': tx_id, 'contract_addr': contract_addr, 'contract_function': function_name, 'result': result, 'state': "Executed"}
