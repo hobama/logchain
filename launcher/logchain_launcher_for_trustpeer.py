@@ -26,7 +26,7 @@ def initialize_process_for_trust_peer():
 
     # monitoring.add_peer('producer', 'producer a', 'producer.png')
     # monitoring.log('add_peer.producer.producer abc')
-    monitoring.add_peer('package', 'sdfsdf', 'package.png')
+    # monitoring.add_peer('test_pkg', 'test', 'package.png')
     #
     # monitoring.add_peer('delivery', 'sadfsad', 'delivery.png')
     # monitoring.add_peer('delivery', 'sdfsdf', 'delivery.png')

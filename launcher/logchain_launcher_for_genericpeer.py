@@ -1,33 +1,36 @@
 import logging
 import sys
-from PyQt5 import QtWidgets
+from queue import Queue
 from peerproperty import nodeproperty
 from peerproperty import set_peer
 from storage import file_controller
-from communication.p2p import receiver
+from communication.peermgr import peerconnector
 from service.blockmanager import genesisblock
 from communication.msg_dispatch import dispatch_queue_list
 from communication.msg_dispatch import t_type_queue_thread
 from communication.msg_dispatch import b_type_queue_thread
 from communication.msg_dispatch import v_type_queue_thread
-from communication.peermgr import peerconnector
+from communication.p2p import receiver
 from monitoring import monitoring
 
 
-# Logchain launcher function for GenericPeer
-# GenericPeer performs the role of PeerConnector in parallel.
-def initialize_process_for_generic_peer():
 
+# query_q = Queue()
+# savetx_q = Queue()
+# smartcontract_deploy_q = Queue()
+# smartcontract_execute_q = Queue()
+
+
+def initialize_process_for_generic_peer():
     logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-    monitoring.log("log.Start Logchain launcher for GenericPeer...")
+    monitoring.log("log.Start Logchain launcher for Generic Peer...")
 
     initialize()
 
-    monitoring.log("log.Run processes for PeerConnector.")
-
+    monitoring.log('log.Run processes for PeerConnector.')
     if not peerconnector.start_peerconnector():
         monitoring.log('log.Aborted because PeerConnector execution failed.')
-        return
+        sys.exit(1)
 
     set_peer.set_my_peer_num()
     monitoring.log("log.My peer num: " + str(nodeproperty.My_peer_num))
@@ -70,6 +73,6 @@ def initialize():
     set_peer.init_myIP()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    logging.basicConfig(stream = sys.stderr, level = logging.DEBUG)
     initialize_process_for_generic_peer()
-
