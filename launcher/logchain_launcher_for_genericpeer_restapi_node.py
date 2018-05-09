@@ -1,6 +1,7 @@
 import logging
 import sys
-import json
+
+from PyQt5 import QtWidgets
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -195,6 +196,38 @@ def initialize_process_for_RESTAPInode():
 # REST API Node launcher function
 if __name__ == "__main__":
     logging.basicConfig(stream = sys.stderr, level = logging.DEBUG)
-    initialize_process_for_generic_peer()
-    initialize_process_for_RESTAPInode()
-    app.run(host='0.0.0.0')
+
+    argv = sys.argv
+    hostname = '0.0.0.0'
+
+    if len(argv) != 1:
+        arg_1 = argv[1]
+        arg_2 = argv[2]
+        if arg_1 == "monitor":
+            if arg_2 == "mini":
+                monitor_app = QtWidgets.QApplication(sys.argv)
+                monitoring.Main_form = monitoring.Form()
+                initialize_process_for_generic_peer()
+                initialize_process_for_RESTAPInode()
+                app.run(host=hostname)
+                sys.exit(monitor_app.exec())
+            elif arg_2 == "normal":
+                monitor_app = QtWidgets.QApplication(sys.argv)
+                monitoring.Main_form = monitoring.Form()
+                initialize_process_for_generic_peer()
+                initialize_process_for_RESTAPInode()
+                app.run(host=hostname)
+                sys.exit(monitor_app.exec())
+            elif arg_2 == "big":
+                monitor_app = QtWidgets.QApplication(sys.argv)
+                monitoring.Main_form = monitoring.Form()
+                initialize_process_for_generic_peer()
+                initialize_process_for_RESTAPInode()
+                app.run(host=hostname)
+                sys.exit(monitor_app.exec())
+            else:
+                print("wrong argument !!")
+    else:
+        initialize_process_for_generic_peer()
+        initialize_process_for_RESTAPInode()
+        app.run(host=hostname)
