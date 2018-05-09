@@ -204,23 +204,23 @@ if __name__ == "__main__":
         arg_1 = argv[1]
         arg_2 = argv[2]
         if arg_1 == "monitor":
-            if arg_2 == "mini":
+            if arg_2 == "":
                 monitor_app = QtWidgets.QApplication(sys.argv)
                 monitoring.Main_form = monitoring.Form()
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
                 app.run(host=hostname)
                 sys.exit(monitor_app.exec())
-            elif arg_2 == "normal":
+            elif arg_2 == "mini":
                 monitor_app = QtWidgets.QApplication(sys.argv)
-                monitoring.Main_form = monitoring.Form()
+                monitoring.Main_form = monitoring.Form('mini')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
                 app.run(host=hostname)
                 sys.exit(monitor_app.exec())
-            elif arg_2 == "big":
+            elif arg_2 == "ex":
                 monitor_app = QtWidgets.QApplication(sys.argv)
-                monitoring.Main_form = monitoring.Form()
+                monitoring.Main_form = monitoring.Form('ex')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
                 app.run(host=hostname)

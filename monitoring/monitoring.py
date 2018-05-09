@@ -31,9 +31,15 @@ def add_peer(title, subtitle, iconfilename):
 
 
 class Form(QtWidgets.QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, size, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
-        self.ui = uic.loadUi("monitoring" + os.sep + "monitoring.ui")
+
+        if size == 'mini':
+            self.ui = uic.loadUi("monitoring" + os.sep + "monitoring_mini.ui")
+        elif size == 'ex':
+            self.ui = uic.loadUi("monitoring" + os.sep + "monitoring_ex.ui")
+        else:
+            self.ui = uic.loadUi("monitoring" + os.sep + "monitoring.ui")
 
         self.ui.setWindowFlags(Qt.SplashScreen)                          # 윈도우 타이틀 없애기
 
