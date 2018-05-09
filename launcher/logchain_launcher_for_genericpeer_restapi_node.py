@@ -200,18 +200,21 @@ if __name__ == "__main__":
     argv = sys.argv
     hostname = '0.0.0.0'
 
-    if len(argv) != 1:
+    print('len : ')
+    if len(argv) == 2:
+        arg_1 = argv[1]
+        if arg_1 == "monitor":
+            monitor_app = QtWidgets.QApplication(sys.argv)
+            monitoring.Main_form = monitoring.Form()
+            initialize_process_for_generic_peer()
+            initialize_process_for_RESTAPInode()
+            app.run(host=hostname)
+            sys.exit(monitor_app.exec())
+    elif len(argv) == 3:
         arg_1 = argv[1]
         arg_2 = argv[2]
         if arg_1 == "monitor":
-            if arg_2 == "":
-                monitor_app = QtWidgets.QApplication(sys.argv)
-                monitoring.Main_form = monitoring.Form()
-                initialize_process_for_generic_peer()
-                initialize_process_for_RESTAPInode()
-                app.run(host=hostname)
-                sys.exit(monitor_app.exec())
-            elif arg_2 == "mini":
+            if arg_2 == "mini":
                 monitor_app = QtWidgets.QApplication(sys.argv)
                 monitoring.Main_form = monitoring.Form('mini')
                 initialize_process_for_generic_peer()

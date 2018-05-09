@@ -31,7 +31,7 @@ def add_peer(title, subtitle, iconfilename):
 
 
 class Form(QtWidgets.QDialog):
-    def __init__(self, size, parent=None):
+    def __init__(self, size=None, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
 
         if size == 'mini':

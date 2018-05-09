@@ -3,6 +3,8 @@ from PyQt5 import QtWidgets
 from monitoring import Form
 
 if __name__ == '__main__':
+    print('len : ' + len(sys.argv))
+
     app = QtWidgets.QApplication(sys.argv)
 
     main_form = Form()
@@ -12,7 +14,7 @@ if __name__ == '__main__':
     main_form.add_queue_data('block.Block1{add}')
     main_form.add_queue_data('block.Block2{add}')
     main_form.add_queue_data('block.Block3{add}')
- 
+
     main_form.add_queue_data('transaction.tx1{node1->node2}')
     main_form.add_queue_data('transaction.tx2{node1->node2}')
     main_form.add_queue_data('transaction.tx3{node1->node2}')

@@ -24,9 +24,9 @@ def initialize_process_for_trust_peer():
     logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
     monitoring.log("log.Start Logchain launcher for TrustPeer...")
 
-    # monitoring.add_peer('producer', 'producer a', 'producer.png')
-    # monitoring.log('add_peer.producer.producer abc')
-    # monitoring.add_peer('test_pkg', 'test', 'package.png')
+    monitoring.add_peer('producer', 'producer a', 'producer.png')
+    monitoring.log('add_peer.producer.producer abc')
+    monitoring.add_peer('test_pkg', 'test', 'package.png')
     #
     # monitoring.add_peer('delivery', 'sadfsad', 'delivery.png')
     # monitoring.add_peer('delivery', 'sdfsdf', 'delivery.png')
@@ -86,7 +86,7 @@ def main(argv):
         print("argument 1: " + arg_1)
         if arg_1 == "monitor":
             app = QtWidgets.QApplication(sys.argv)
-            monitoring.Main_form = monitoring.Form()
+            monitoring.Main_form = monitoring.Form('ex')
             initialize_process_for_trust_peer()
             sys.exit(app.exec())
     else:
