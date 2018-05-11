@@ -1,5 +1,6 @@
 import logging
 import sys
+import threading
 
 from PyQt5 import QtWidgets
 from flask import Flask
@@ -193,6 +194,12 @@ def initialize_process_for_RESTAPInode():
     logging.debug('RESTAPIReqContractExecutionQueueThread started')
 
 
+def monitoring_run(args):
+    monitor_app = QtWidgets.QApplication(sys.argv)
+    monitoring.Main_form = monitoring.Form(args)
+    monitor_app.exec()
+
+
 # REST API Node launcher function
 if __name__ == "__main__":
     logging.basicConfig(stream = sys.stderr, level = logging.DEBUG)
@@ -203,29 +210,27 @@ if __name__ == "__main__":
     if len(argv) == 2:
         arg_1 = argv[1]
         if arg_1 == "monitor":
-            monitor_app = QtWidgets.QApplication(sys.argv)
-            monitoring.Main_form = monitoring.Form()
             initialize_process_for_generic_peer()
             initialize_process_for_RESTAPInode()
-            monitor_app.exec()
+            t = threading.Thread(target=monitoring_run, args='')
+            t.start()
+
             sys.exit(app.run(host=hostname, threaded=True))
     elif len(argv) == 3:
         arg_1 = argv[1]
         arg_2 = argv[2]
         if arg_1 == "monitor":
             if arg_2 == "mini":
-                monitor_app = QtWidgets.QApplication(sys.argv)
-                monitoring.Main_form = monitoring.Form('mini')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
-                monitor_app.exec()
+                t = threading.Thread(target=monitoring_run, args='mini')
+                t.start()
                 sys.exit(app.run(host=hostname, threaded=True))
             elif arg_2 == "ex":
-                monitor_app = QtWidgets.QApplication(sys.argv)
-                monitoring.Main_form = monitoring.Form('ex')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
-                monitor_app.exec()
+                t = threading.Thread(target=monitoring_run, args='ex')
+                t.start()
                 sys.exit(app.run(host=hostname, threaded=True))
             else:
                 print("wrong argument !!")
