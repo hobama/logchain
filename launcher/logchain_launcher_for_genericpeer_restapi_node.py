@@ -207,8 +207,8 @@ if __name__ == "__main__":
             monitoring.Main_form = monitoring.Form()
             initialize_process_for_generic_peer()
             initialize_process_for_RESTAPInode()
-            app.run(host=hostname)
-            sys.exit(monitor_app.exec())
+            monitor_app.exec()
+            sys.exit(app.run(host=hostname, threaded=True))
     elif len(argv) == 3:
         arg_1 = argv[1]
         arg_2 = argv[2]
@@ -218,15 +218,15 @@ if __name__ == "__main__":
                 monitoring.Main_form = monitoring.Form('mini')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
-                app.run(host=hostname)
-                sys.exit(monitor_app.exec())
+                monitor_app.exec()
+                sys.exit(app.run(host=hostname, threaded=True))
             elif arg_2 == "ex":
                 monitor_app = QtWidgets.QApplication(sys.argv)
                 monitoring.Main_form = monitoring.Form('ex')
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
-                app.run(host=hostname)
-                sys.exit(monitor_app.exec())
+                monitor_app.exec()
+                sys.exit(app.run(host=hostname, threaded=True))
             else:
                 print("wrong argument !!")
     else:
