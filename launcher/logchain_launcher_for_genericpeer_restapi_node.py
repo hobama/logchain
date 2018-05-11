@@ -79,6 +79,8 @@ def tx_save():
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
 
+    monitoring.log("transaction." + request.json["tx_title"])
+
     return jsonify({
         "tx_title": request.json["tx_title"],
         "tx_body": request.json["tx_body"],
@@ -214,7 +216,6 @@ if __name__ == "__main__":
             initialize_process_for_RESTAPInode()
             t = threading.Thread(target=monitoring_run, args='')
             t.start()
-
             sys.exit(app.run(host=hostname, threaded=True))
     elif len(argv) == 3:
         arg_1 = argv[1]

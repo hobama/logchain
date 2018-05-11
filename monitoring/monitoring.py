@@ -52,7 +52,6 @@ class Form(QtWidgets.QDialog):
         self.ui.show()
 
     def add_node(self, title, subtitle, iconfilename):
-        print("NODE : " + title +"/"+subtitle+"/"+iconfilename)
         # Create QCustomQWidget
         myQCustomQWidget = NodeWidget()
         myQCustomQWidget.setTextUp(title)
