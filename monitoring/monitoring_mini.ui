@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>475</width>
     <height>320</height>
    </rect>
   </property>
@@ -192,7 +192,7 @@
   <widget class="QWidget" name="widget_3" native="true">
    <property name="geometry">
     <rect>
-     <x>1915</x>
+     <x>470</x>
      <y>0</y>
      <width>5</width>
      <height>1080</height>
@@ -230,9 +230,9 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>20</x>
       <y>10</y>
-      <width>161</width>
+      <width>451</width>
       <height>21</height>
      </rect>
     </property>
@@ -329,24 +329,6 @@
     <string>Voting</string>
    </property>
   </widget>
-  <zorder>widget</zorder>
-  <zorder>listWidget</zorder>
-  <zorder>listWidget_2</zorder>
-  <zorder>listWidget_3</zorder>
-  <zorder>listWidget_4</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label</zorder>
-  <zorder>widget_2</zorder>
-  <zorder>widget_3</zorder>
-  <zorder>widget_4</zorder>
-  <zorder>widget_5</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_6</zorder>
-  <zorder>listWidget_5</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_7</zorder>
  </widget>
  <resources/>
  <connections/>

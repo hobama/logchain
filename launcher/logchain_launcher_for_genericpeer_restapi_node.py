@@ -200,7 +200,6 @@ if __name__ == "__main__":
     argv = sys.argv
     hostname = '0.0.0.0'
 
-    print('len : ')
     if len(argv) == 2:
         arg_1 = argv[1]
         if arg_1 == "monitor":

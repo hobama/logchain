@@ -1,7 +1,6 @@
 import time
 
 Transactions = None
-
 Merkle_root = None
 
 
@@ -20,9 +19,12 @@ class Transaction(object):
         """
         self.type = p_tx_type
         self.sender_ip = p_sender_ip
-        self.timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+
+        self.timestamp = int(round(time.time()*1000.0))     # UTC timestamp rule
+
         self.tx_id = "B" + self.timestamp
         self.extra_data = p_extra
+
         # self.transaction_count = transaction_count
         # self.message = ''
         # self.pub_key = ''

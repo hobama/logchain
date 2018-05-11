@@ -52,6 +52,7 @@ class Form(QtWidgets.QDialog):
         self.ui.show()
 
     def add_node(self, title, subtitle, iconfilename):
+        print("NODE : " + title +"/"+subtitle+"/"+iconfilename)
         # Create QCustomQWidget
         myQCustomQWidget = NodeWidget()
         myQCustomQWidget.setTextUp(title)
@@ -77,14 +78,17 @@ class Form(QtWidgets.QDialog):
     def add_log_item(self,log):
         item = QListWidgetItem(log)
         self.ui.listWidget.addItem(item)
+        self.ui.listWidget.scrollToTop()
 
     def add_block_item(self,log):
         item = QListWidgetItem(log)
         self.ui.listWidget_3.addItem(item)
+        self.ui.listWidget_3.scrollToTop()
 
     def add_transaction_item(self,log):
         item = QListWidgetItem(log)
         self.ui.listWidget_2.addItem(item)
+        self.ui.listWidget_2.scrollToTop()
 
     def change_frame_color(self, r, g, b):
         stylesheet = "background-color: rgb({0}, {1}, {2})".format(r, g, b)
@@ -125,14 +129,15 @@ class Form(QtWidgets.QDialog):
                 data = datas.split('.')
 
                 if data[0] == 'log':
-                    self.add_log_item(data[1])
-                    self.change_frame_color(44, 132, 238)
+                    add_msg = data[1]
+                    for index in range(2, len(data)):
+                        add_msg += "." + data[index]
+                    self.add_log_item(add_msg)
                 elif data[0] == 'block':
                     self.add_block_item(data[1])
-                    self.change_frame_color(231,76,60)
+                    self.change_frame_color(231, 76, 60)
                 elif data[0] == 'transaction':
                     self.add_transaction_item(data[1])
                     self.change_frame_color(241, 196, 15)
                 elif data[0] == 'add_peer':
-                    # self.add_node(data[1], data[2], data[1]+".png")
-                    self.add_node(data[1], data[2], "producer.png")
+                    self.add_node(data[1], data[2], "node.png")

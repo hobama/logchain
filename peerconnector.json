@@ -1,12 +1,12 @@
 {
     "PEER_CONNECTOR": {
-        "ID": "gw1 processor",
+        "ID": "gw3",
         "PORT": 8888
     },
     "PEER_MGR_LIST": [
         {
             "ID": "pc producer",
-            "IP": "192.168.0.29",
+            "IP": "192.168.0.4",
             "PORT": 9999
         }
     ]

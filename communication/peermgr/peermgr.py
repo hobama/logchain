@@ -64,15 +64,15 @@ def start_peermgr() -> bool:
 
 def getPeerIconfilename(peerid: str) -> str:
     if "producer" in peerid:
-        return "producer"
+        return "producer.png"
     elif "package" in peerid:
-        return "package"
+        return "package.png"
     elif "delivery" in peerid:
-        return "delivery"
+        return "delivery.png"
     elif "seller" in peerid:
-        return "seller"
+        return "seller.png"
     else:
-        return "node"
+        return "node.png"
 
 
 class ListeningToPeerConnectorThread(threading.Thread):
@@ -164,8 +164,7 @@ class ManagingConnectedPeerListThread(threading.Thread):
                 set_peer.set_my_peer_num()
                 set_peer.set_total_peer_num()
 
-                monitoring.add_peer(
-                    peerid, socketip, getPeerIconfilename(peerid))
+                # monitoring.add_peer(peerid, socketip, getPeerIconfilename(peerid))
 
             else:
                 request_sock.close()

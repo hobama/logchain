@@ -37,7 +37,8 @@ def generate_block(difficulty, merkle_root, transactions):
         monitoring.log("log.Mining Block.")
         block_hash, nonce, tryanderror = proof_of_work.proof_of_work(
             block_info, difficulty)
-        timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+
+        timestamp = int(round(time.time()*1000.0))     # UTC timestamp rule
 
         monitoring.log("log.Create Block Header.")
         block_header = block.BlockHeader(

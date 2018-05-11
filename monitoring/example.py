@@ -1,25 +1,8 @@
-import sys, threading, time, queue
-from PyQt5 import QtWidgets
-from monitoring import Form
+# import sys, threading, time, queue
+# from pyqt5 import qtwidgets
+# from monitoring import form
+import time
 
 if __name__ == '__main__':
-    print('len : ' + len(sys.argv))
 
-    app = QtWidgets.QApplication(sys.argv)
-
-    main_form = Form()
-
-    main_form.change_status_text("Server Status : NOMAL            13:22:09")
-
-    main_form.add_queue_data('block.Block1{add}')
-    main_form.add_queue_data('block.Block2{add}')
-    main_form.add_queue_data('block.Block3{add}')
-
-    main_form.add_queue_data('transaction.tx1{node1->node2}')
-    main_form.add_queue_data('transaction.tx2{node1->node2}')
-    main_form.add_queue_data('transaction.tx3{node1->node2}')
-
-    main_form.add_queue_data('log.start voting')
-    main_form.add_queue_data('log.end voting')
-
-    sys.exit(app.exec())
+    print(int(round(time.time()*1000.0)))
