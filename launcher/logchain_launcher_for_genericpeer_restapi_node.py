@@ -79,8 +79,6 @@ def tx_save():
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
 
-    monitoring.log("transaction." + request.json["tx_title"])
-
     return jsonify({
         "tx_title": request.json["tx_title"],
         "tx_body": request.json["tx_body"],
