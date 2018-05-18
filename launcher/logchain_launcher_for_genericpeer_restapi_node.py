@@ -1,5 +1,6 @@
 import logging
 import sys
+sys.path.append('../')
 import threading
 
 from PyQt5 import QtWidgets
