@@ -74,24 +74,29 @@ class Form(QtWidgets.QDialog):
     def change_status_text(self, message):
         self.ui.label_7.setText(""+message)
 
-    def add_log_item(self,log):
+    def add_log_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget.addItem(item)
         self.ui.listWidget.scrollToTop()
 
-    def add_block_item(self,log):
+    def add_block_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget_3.addItem(item)
         self.ui.listWidget_3.scrollToTop()
 
-    def add_transaction_item(self,log):
+    def add_transaction_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget_2.addItem(item)
         self.ui.listWidget_2.scrollToTop()
 
+    def add_voting_item(self, log):
+        item = QListWidgetItem(log)
+        self.ui.listWidget_5.addItem(item)
+        self.ui.listWidget_5.scrollToTop()
+
     def change_frame_color(self, r, g, b):
         stylesheet = "background-color: rgb({0}, {1}, {2})".format(r, g, b)
-        widget_list = [self.ui.widget,self.ui.widget_2,self.ui.widget_3,self.ui.widget_4,self.ui.widget_5]
+        widget_list = [self.ui.widget, self.ui.widget_2, self.ui.widget_3, self.ui.widget_4, self.ui.widget_5]
         
         for widget in widget_list:
             widget.setStyleSheet(stylesheet)
@@ -138,5 +143,8 @@ class Form(QtWidgets.QDialog):
                 elif data[0] == 'transaction':
                     self.add_transaction_item(data[1])
                     self.change_frame_color(241, 196, 15)
+                elif data[0] == 'voting':
+                    self.add_voting_item(data[1])
+                    self.change_frame_color(240, 66, 153)
                 elif data[0] == 'add_peer':
                     self.add_node(data[1], data[2], "node.png")
