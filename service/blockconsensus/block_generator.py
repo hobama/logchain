@@ -42,7 +42,7 @@ def generate_block(difficulty, merkle_root, transactions):
 
         monitoring.log("log.Create Block Header.")
         block_header = block.BlockHeader(
-            prev_hash, nonce, merkle_root, vote_result, timestamp)
+            prev_hash, nonce, merkle_root, vote_result, str(timestamp))
         block_header.block_id = "test_block_id"
         block_header.block_number = int(prev_block_height) + 1
         block_header.block_hash = block_hash

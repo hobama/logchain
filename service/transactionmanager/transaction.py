@@ -22,7 +22,7 @@ class Transaction(object):
 
         self.timestamp = int(round(time.time()*1000.0))     # UTC timestamp rule
 
-        self.tx_id = "B" + self.timestamp
+        self.tx_id = "B" + str(self.timestamp)
         self.extra_data = p_extra
 
         # self.transaction_count = transaction_count

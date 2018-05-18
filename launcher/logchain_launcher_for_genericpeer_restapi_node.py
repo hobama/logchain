@@ -196,7 +196,7 @@ def initialize_process_for_RESTAPInode():
     logging.debug('RESTAPIReqContractExecutionQueueThread started')
 
 
-def monitoring_run(args):
+def monitoring_run(args=None):
     monitor_app = QtWidgets.QApplication(sys.argv)
     monitoring.Main_form = monitoring.Form(args)
     monitor_app.exec()
