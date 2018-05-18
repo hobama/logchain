@@ -144,7 +144,10 @@ class Form(QtWidgets.QDialog):
                     self.add_transaction_item(data[1])
                     self.change_frame_color(241, 196, 15)
                 elif data[0] == 'voting':
-                    self.add_voting_item(data[1])
+                    add_msg = data[1]
+                    for index in range(2, len(data)):
+                        add_msg += "." + data[index]
+                    self.add_voting_item(add_msg)
                     self.change_frame_color(240, 66, 153)
                 elif data[0] == 'add_peer':
                     self.add_node(data[1], data[2], "node.png")
