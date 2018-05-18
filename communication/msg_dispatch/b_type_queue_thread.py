@@ -38,6 +38,8 @@ def receive_event(p_thrd_name, p_inq):
         block_verify.verify_tx_list(Data_jobj['tx_list'])
 
         monitoring.log("log.End create _new block")
+        monitoring.log("block."+str(Data_jobj['block_header']['block_number']))
+
 
         # try
         file_controller.remove_all_transactions()

@@ -34,6 +34,8 @@ def receive_event(p_thrd_name, p_inq):
 
         file_controller.add_voting(recv_data)
 
+        monitoring.log("voting." + recv_data)
+
         difficulty = voting.result_voting()
 
         if (difficulty > 0):
