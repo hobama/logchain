@@ -4,5 +4,4 @@
 import time
 
 if __name__ == '__main__':
-
     print(int(round(time.time()*1000.0)))

@@ -1,6 +1,7 @@
 import logging
 import sys
 sys.path.append('../')
+
 import threading
 
 from PyQt5 import QtWidgets
@@ -79,6 +80,8 @@ def tx_save():
     savetx_q.put((request.json, request.remote_addr))
     monitoring.log("log."+str(savetx_q))
     monitoring.log("log."+str(savetx_q.qsize()))
+
+    monitoring.log("transaction." + str(savetx_q) + '(' + str(savetx_q.qsize()) + ')')
 
     return jsonify({
         "tx_title": request.json["tx_title"],

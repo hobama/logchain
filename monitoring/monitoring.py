@@ -77,22 +77,25 @@ class Form(QtWidgets.QDialog):
     def add_log_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget.addItem(item)
-        self.ui.listWidget.scrollToTop()
+        self.ui.listWidget.scrollToBottom()
 
     def add_block_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget_3.addItem(item)
-        self.ui.listWidget_3.scrollToTop()
+        self.ui.listWidget_3.scrollToBottom()
 
     def add_transaction_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget_2.addItem(item)
-        self.ui.listWidget_2.scrollToTop()
+        self.ui.listWidget_2.scrollToBottom()
+
+    def reset_transaction_items(self):
+        self.ui.listWidget_2.clear()
 
     def add_voting_item(self, log):
         item = QListWidgetItem(log)
         self.ui.listWidget_5.addItem(item)
-        self.ui.listWidget_5.scrollToTop()
+        self.ui.listWidget_5.scrollToBottom()
 
     def change_frame_color(self, r, g, b):
         stylesheet = "background-color: rgb({0}, {1}, {2})".format(r, g, b)
@@ -119,7 +122,7 @@ class Form(QtWidgets.QDialog):
         # self.ui.widget_5.setStyleSheet(stylesheet)
         # print(stylesheet)
 
-    def add_queue_data(self,data):
+    def add_queue_data(self, data):
         monitoring_queue.put(data)
 
     def read_queue(self):
@@ -151,3 +154,5 @@ class Form(QtWidgets.QDialog):
                     self.change_frame_color(240, 66, 153)
                 elif data[0] == 'add_peer':
                     self.add_node(data[1], data[2], "node.png")
+                elif data[0] == 'reset':
+                    self.reset_transaction_items()

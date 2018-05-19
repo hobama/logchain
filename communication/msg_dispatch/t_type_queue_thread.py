@@ -38,8 +38,6 @@ def receive_event(p_thrd_name, p_inq):
 
         file_controller.add_transaction(recv_data)
         monitoring.log("log.Transaction added to transaction pool: " + recv_data)
-        monitoring.log("transaction." + recv_data)
-
 
         if (transaction_count == voting.TransactionCountForConsensus) or (Data_jobj['type'] == 'CT') or (Data_jobj['type'] == 'RT'):
             # difficulty = 0
@@ -78,5 +76,6 @@ def receive_event(p_thrd_name, p_inq):
             file_controller.remove_all_transactions()
             '''
             transaction_count = 0
+            monitoring.log('reset.Reset All transaction Items')
 
         request_sock.close()
