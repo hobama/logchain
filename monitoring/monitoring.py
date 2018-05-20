@@ -132,7 +132,7 @@ class Form(QtWidgets.QDialog):
         self.change_frame_color(231, 76, 60)
 
     def read_queue(self):
-        time.sleep(1.5)
+        time.sleep(1)
         while True:
             self.change_status_text('Server Status : NOMAL            ' + time.strftime('%H:' + '%M:' + '%S'))
 
@@ -149,21 +149,21 @@ class Form(QtWidgets.QDialog):
                 elif data[0] == 'block':
                     self.add_block_item(data[1])
                     self.change_frame_color(231, 76, 60)
-                    t = threading.Thread(target=self.change_default_color)
-                    t.start()
+                    # t = threading.Thread(target=self.change_default_color)
+                    # t.start()
                 elif data[0] == 'transaction':
                     self.add_transaction_item(data[1])
                     self.change_frame_color(241, 196, 15)
-                    t = threading.Thread(target=self.change_default_color)
-                    t.start()
+                    # t = threading.Thread(target=self.change_default_color)
+                    # t.start()
                 elif data[0] == 'voting':
                     add_msg = data[1]
                     for index in range(2, len(data)):
                         add_msg += "." + data[index]
                     self.add_voting_item(add_msg)
                     self.change_frame_color(240, 66, 153)
-                    t = threading.Thread(target=self.change_default_color)
-                    t.start()
+                    # t = threading.Thread(target=self.change_default_color)
+                    # t.start()
                 elif data[0] == 'add_peer':
                     self.add_node(data[1], data[2], "node.png")
                 elif data[0] == 'reset':
