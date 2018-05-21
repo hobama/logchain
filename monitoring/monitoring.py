@@ -4,11 +4,12 @@ import queue
 import os
 import logging
 
-from time import sleep
-
 from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QEventLoop
+
 from PyQt5.QtWidgets import QListWidgetItem
 
 from monitoring.node_widget import NodeWidget
@@ -111,7 +112,9 @@ class Form(QtWidgets.QDialog):
         monitoring_queue.put(data)
 
     def read_queue(self):
-        time.sleep(1)
+        loop = QEventLoop()
+        QTimer.singleShot(1000, loop.quit)
+        loop.exec_()
         while True:
             self.change_status_text('Server Status : NOMAL            ' + time.strftime('%H:' + '%M:' + '%S'))
 
@@ -128,7 +131,9 @@ class Form(QtWidgets.QDialog):
                 elif data[0] == 'block':
                     self.add_block_item(data[1])
                     self.change_frame_color(231, 76, 60)
-                    sleep(1.2)
+                    loop = QEventLoop()
+                    QTimer.singleShot(1200, loop.quit)
+                    loop.exec_()
                     self.change_frame_color(44, 132, 238)
                 elif data[0] == 'transaction':
                     add_msg = data[1]
@@ -136,7 +141,9 @@ class Form(QtWidgets.QDialog):
                         add_msg += "." + data[index]
                     self.add_transaction_item(add_msg)
                     self.change_frame_color(241, 196, 15)
-                    sleep(1.2)
+                    loop = QEventLoop()
+                    QTimer.singleShot(1200, loop.quit)
+                    loop.exec_()
                     self.change_frame_color(44, 132, 238)
                 elif data[0] == 'voting':
                     add_msg = data[1]
@@ -144,7 +151,9 @@ class Form(QtWidgets.QDialog):
                         add_msg += "." + data[index]
                     self.add_voting_item(add_msg)
                     self.change_frame_color(240, 66, 153)
-                    sleep(1.2)
+                    loop = QEventLoop()
+                    QTimer.singleShot(1200, loop.quit)
+                    loop.exec_()
                     self.change_frame_color(44, 132, 238)
                 elif data[0] == 'reset':
                     self.reset_transaction_items()
