@@ -54,7 +54,7 @@ class Form(QtWidgets.QDialog):
 
         self.timer2 = QTimer(self)
         self.timer2.timeout.connect(self.change_default_color)
-        self.timer2.start(15)
+        self.timer2.start(1200)
 
         queue_thread = threading.Thread(target=self.read_queue)
         queue_thread.daemon = True
