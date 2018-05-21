@@ -56,7 +56,6 @@ class Form(QtWidgets.QDialog):
 
     def add_node(self, title, subtitle, iconfilename):
         # Create QCustomQWidget
-        print(title +"/" + subtitle + "/" + iconfilename)
         myQCustomQWidget = NodeWidget()
         myQCustomQWidget.setTextUp(title)
         myQCustomQWidget.setTextDown(subtitle)
@@ -129,6 +128,8 @@ class Form(QtWidgets.QDialog):
                 elif data[0] == 'block':
                     self.add_block_item(data[1])
                     self.change_frame_color(231, 76, 60)
+                    sleep(1.2)
+                    self.change_frame_color(44, 132, 238)
                 elif data[0] == 'transaction':
                     add_msg = data[1]
                     for index in range(2, len(data)):
@@ -136,7 +137,7 @@ class Form(QtWidgets.QDialog):
                     self.add_transaction_item(add_msg)
                     self.change_frame_color(241, 196, 15)
                     sleep(1.2)
-                    self.change_frame_color(231, 76, 60)
+                    self.change_frame_color(44, 132, 238)
                 elif data[0] == 'voting':
                     add_msg = data[1]
                     for index in range(2, len(data)):
@@ -144,8 +145,6 @@ class Form(QtWidgets.QDialog):
                     self.add_voting_item(add_msg)
                     self.change_frame_color(240, 66, 153)
                     sleep(1.2)
-                    self.change_frame_color(231, 76, 60)
-                elif data[0] == 'add_peer':
-                    self.add_node(data[1], data[2], data[3] + "." + data[4])
+                    self.change_frame_color(44, 132, 238)
                 elif data[0] == 'reset':
                     self.reset_transaction_items()
