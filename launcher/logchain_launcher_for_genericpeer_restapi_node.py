@@ -226,7 +226,7 @@ if __name__ == "__main__":
             if arg_2 == "mini":
                 initialize_process_for_generic_peer()
                 initialize_process_for_RESTAPInode()
-                t = threading.Thread(target=monitoring_run, args='mini')
+                t = threading.Thread(target=monitoring_run, args='m')
                 t.start()
                 sys.exit(app.run(host=hostname, threaded=True))
             elif arg_2 == "ex":

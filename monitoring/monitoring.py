@@ -37,7 +37,7 @@ class Form(QtWidgets.QDialog):
     def __init__(self, size=None, parent=None):
         QtWidgets.QDialog.__init__(self, parent)
 
-        if size == 'mini':
+        if size == 'm':
             self.ui = uic.loadUi("monitoring" + os.sep + "monitoring_mini.ui")
         elif size == 'ex':
             self.ui = uic.loadUi("monitoring" + os.sep + "monitoring_ex.ui")
