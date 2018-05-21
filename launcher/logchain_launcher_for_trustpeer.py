@@ -24,14 +24,6 @@ def initialize_process_for_trust_peer():
     logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
     monitoring.log("log.Start Logchain launcher for TrustPeer...")
 
-    # monitoring.add_peer('producer', 'producer a', 'producer.png')
-    # monitoring.log('add_peer.producer.producer abc')
-    # monitoring.add_peer('test_pkg', 'test', 'package.png')
-    #
-    # monitoring.add_peer('delivery', 'sadfsad', 'delivery.png')
-    # monitoring.add_peer('delivery', 'sdfsdf', 'delivery.png')
-    # monitoring.add_peer('seller', 'seller ff', 'seller.png')
-
     initialize()
     monitoring.log('log.Run threads for PeerMgr.')
     if not peermgr.start_peermgr():

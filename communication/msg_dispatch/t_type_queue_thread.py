@@ -34,9 +34,18 @@ def receive_event(p_thrd_name, p_inq):
         Data_jobj = json.loads(recv_data)
         monitoring.log("log.T type msg rcvd: " + recv_data)
         monitoring.log("log.T Type - " + Data_jobj['type'])
+
+        monitoring.log("log.T Type from ip " + Data_jobj['sender_ip'])
+
+        if Data_jobj['sender_ip'] == myip:
+            monitoring.log("transaction." + '<span style = "color:#ff0000;">' + '.' + recv_data + '.' + '</span>')
+        else:
+            monitoring.log("transaction." + recv_data)
+
         transaction_count = transaction_count + 1
 
         file_controller.add_transaction(recv_data)
+
         monitoring.log("log.Transaction added to transaction pool: " + recv_data)
 
         if (transaction_count == voting.TransactionCountForConsensus) or (Data_jobj['type'] == 'CT') or (Data_jobj['type'] == 'RT'):

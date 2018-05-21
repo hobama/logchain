@@ -105,31 +105,9 @@ class Form(QtWidgets.QDialog):
         
         for widget in widget_list:
             widget.setStyleSheet(stylesheet)
-            # widget.setAutoFillBackground(True)
-            # pt = widget.palette()
-            # pt.setColor(widget.backgroundRole(),QColor(r,g,b))
-            # widget.setPalette(pt)
-            # print(p.name(), widget.autoFillBackground(), widget.updatesEnabled())
-
-        # stylesheet = "background-color: rgb({0}, {1}, {2})".format(r,g,b)
-        # print(stylesheet)
-        # self.ui.widget.setStyleSheet(stylesheet)
-        # print(stylesheet)
-        # self.ui.widget_2.setStyleSheet(stylesheet)
-        # print(stylesheet)
-        # self.ui.widget_3.setStyleSheet(stylesheet)
-        # print(stylesheet)
-        # self.ui.widget_4.setStyleSheet(stylesheet)
-        # print(stylesheet)
-        # self.ui.widget_5.setStyleSheet(stylesheet)
-        # print(stylesheet)
 
     def add_queue_data(self, data):
         monitoring_queue.put(data)
-
-    def change_default_color(self):
-        sleep(1.2)
-        self.change_frame_color(231, 76, 60)
 
     def read_queue(self):
         time.sleep(1)
@@ -149,22 +127,21 @@ class Form(QtWidgets.QDialog):
                 elif data[0] == 'block':
                     self.add_block_item(data[1])
                     self.change_frame_color(231, 76, 60)
-                    # t = threading.Thread(target=self.change_default_color)
-                    # t.start()
                 elif data[0] == 'transaction':
-                    self.add_transaction_item(data[1])
+                    add_msg = data[1]
+                    for index in range(2, len(data)):
+                        add_msg += "." + data[index]
+                    self.add_transaction_item(add_msg)
                     self.change_frame_color(241, 196, 15)
-                    # t = threading.Thread(target=self.change_default_color)
-                    # t.start()
+                    sleep(1.2)
+                    self.change_frame_color(231, 76, 60)
                 elif data[0] == 'voting':
                     add_msg = data[1]
                     for index in range(2, len(data)):
                         add_msg += "." + data[index]
                     self.add_voting_item(add_msg)
                     self.change_frame_color(240, 66, 153)
-                    # t = threading.Thread(target=self.change_default_color)
-                    # t.start()
-                elif data[0] == 'add_peer':
-                    self.add_node(data[1], data[2], "node.png")
+                    sleep(1.2)
+                    self.change_frame_color(231, 76, 60)
                 elif data[0] == 'reset':
                     self.reset_transaction_items()
