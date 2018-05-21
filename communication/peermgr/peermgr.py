@@ -164,8 +164,6 @@ class ManagingConnectedPeerListThread(threading.Thread):
                 set_peer.set_my_peer_num()
                 set_peer.set_total_peer_num()
 
-                monitoring.add_peer(peerid, socketip, getPeerIconfilename(peerid))
-
             else:
                 request_sock.close()
                 # If there is no ID in the peer list, ignore it.

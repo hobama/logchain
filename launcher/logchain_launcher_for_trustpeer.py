@@ -25,6 +25,13 @@ def initialize_process_for_trust_peer():
     monitoring.log("log.Start Logchain launcher for TrustPeer...")
 
     initialize()
+
+    monitoring.add_peer('producer', '192.168.0.5', 'producer.png')
+    monitoring.add_peer('package', '192.168.0.6', 'package.png')
+    monitoring.add_peer('seller', '192.168.0.8', 'seller.png')
+    monitoring.add_peer('delivery 1', '192.168.0.9', 'delivery.png')
+    monitoring.add_peer('delivery 2', '192.168.0.11', 'delivery.png')
+
     monitoring.log('log.Run threads for PeerMgr.')
     if not peermgr.start_peermgr():
         monitoring.log("log.Aborted because PeerMgr execution failed.")

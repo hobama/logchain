@@ -9,6 +9,7 @@ from service.blockconsensus import merkle_tree
 from service.blockconsensus import voting
 from monitoring import monitoring
 from communication.peermgr import peerconnector
+from peerproperty import nodeproperty
 
 
 class TransactionTypeQueueThread(threading.Thread):
@@ -36,6 +37,8 @@ def receive_event(p_thrd_name, p_inq):
         monitoring.log("log.T Type - " + Data_jobj['type'])
 
         monitoring.log("log.T Type from ip " + Data_jobj['sender_ip'])
+
+        myip = nodeproperty.My_IP_address
 
         if Data_jobj['sender_ip'] == myip:
             monitoring.log("transaction." + '<span style = "color:#ff0000;">' + '.' + recv_data + '.' + '</span>')
