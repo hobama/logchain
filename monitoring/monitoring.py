@@ -8,7 +8,6 @@ from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QTimer
-from PyQt5.QtCore import QEventLoop
 
 from PyQt5.QtWidgets import QListWidgetItem
 
@@ -48,6 +47,14 @@ class Form(QtWidgets.QDialog):
         self.ui.setWindowFlags(Qt.SplashScreen)                          # 윈도우 타이틀 없애기
 
         self.ui.listWidget_4.setSpacing(30)
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.read_queue)
+        self.timer.start(15)
+
+        self.timer2 = QTimer(self)
+        self.timer2.timeout.connect(self.change_default_color)
+        self.timer2.start(15)
 
         queue_thread = threading.Thread(target=self.read_queue)
         queue_thread.daemon = True
@@ -112,48 +119,36 @@ class Form(QtWidgets.QDialog):
         monitoring_queue.put(data)
 
     def read_queue(self):
-        loop = QEventLoop()
-        QTimer.singleShot(1000, loop.quit)
-        loop.exec_()
-        while True:
-            self.change_status_text('Server Status : NOMAL            ' + time.strftime('%H:' + '%M:' + '%S'))
+        self.change_status_text('Server Status : NOMAL            ' + time.strftime('%H:' + '%M:' + '%S'))
 
-            if monitoring_queue.qsize() > 0:
-                datas = monitoring_queue.get()
+        if monitoring_queue.qsize() > 0:
+            datas = monitoring_queue.get()
 
-                data = datas.split('.')
+            data = datas.split('.')
 
-                if data[0] == 'log':
-                    add_msg = data[1]
-                    for index in range(2, len(data)):
-                        add_msg += "." + data[index]
-                    self.add_log_item(add_msg)
-                elif data[0] == 'block':
-                    self.add_block_item(data[1])
-                    self.change_frame_color(231, 76, 60)
-                    loop = QEventLoop()
-                    QTimer.singleShot(1200, loop.quit)
-                    loop.exec_()
-                    self.change_frame_color(44, 132, 238)
-                elif data[0] == 'transaction':
-                    add_msg = data[1]
-                    for index in range(2, len(data)):
-                        add_msg += "." + data[index]
-                    self.add_transaction_item(add_msg)
-                    self.change_frame_color(241, 196, 15)
-                    loop = QEventLoop()
-                    QTimer.singleShot(1200, loop.quit)
-                    loop.exec_()
-                    self.change_frame_color(44, 132, 238)
-                elif data[0] == 'voting':
-                    add_msg = data[1]
-                    for index in range(2, len(data)):
-                        add_msg += "." + data[index]
-                    self.add_voting_item(add_msg)
-                    self.change_frame_color(240, 66, 153)
-                    loop = QEventLoop()
-                    QTimer.singleShot(1200, loop.quit)
-                    loop.exec_()
-                    self.change_frame_color(44, 132, 238)
-                elif data[0] == 'reset':
-                    self.reset_transaction_items()
+            if data[0] == 'log':
+                add_msg = data[1]
+                for index in range(2, len(data)):
+                    add_msg += "." + data[index]
+                self.add_log_item(add_msg)
+            elif data[0] == 'block':
+                self.add_block_item(data[1])
+                self.change_frame_color(231, 76, 60)
+            elif data[0] == 'transaction':
+                add_msg = data[1]
+                for index in range(2, len(data)):
+                    add_msg += "." + data[index]
+                self.add_transaction_item(add_msg)
+                self.change_frame_color(241, 196, 15)
+            elif data[0] == 'voting':
+                add_msg = data[1]
+                for index in range(2, len(data)):
+                    add_msg += "." + data[index]
+                self.add_voting_item(add_msg)
+                self.change_frame_color(240, 66, 153)
+            elif data[0] == 'reset':
+                self.reset_transaction_items()
+
+
+    def change_default_color(self):
+        self.change_frame_color(44, 132, 238)
