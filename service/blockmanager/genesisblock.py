@@ -12,9 +12,8 @@ def genesisblock_generate():
     nonce = "N/A"
     merkle_root = hashlib.sha256(str(transaction).encode('utf-8')).hexdigest()
     vote_result = "N/A"
-    timestamp = "20170904"
     block_header = block.BlockHeader(
-        prev_hash, nonce, merkle_root, vote_result, timestamp)
+        prev_hash, nonce, merkle_root, vote_result)
 
     block_header.block_id = 'genesis_block'
     block_header.block_number = "1"

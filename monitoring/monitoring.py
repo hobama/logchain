@@ -3,6 +3,8 @@ import threading
 import queue
 import os
 import logging
+import requests
+import json
 
 from PyQt5 import QtWidgets
 from PyQt5 import uic
@@ -19,15 +21,47 @@ Main_form = None
 
 
 def log(data):
-    if Main_form==None:
+    item = data.split('.')
+
+    header = {
+        'content-type': "application/json"
+    }
+
+    timestamp = int(round(time.time()*1000.0))
+
+    # type
+    #
+    #  network_event = 블록체인 네크워크에서 발생하는 이벤트
+    #  voting_event = blind voting 과정에서 발생하는 이벤트
+    #  transaction_event = 트랜잭션이 메모리에 저장될 때 발생하는 이벤트
+    #  block_event = 블록이 생성될 때 발생하는 이벤트
+
+    event = 'error'
+
+    if item[0] == 'log':
+        event = 'network_event'
+    elif item[0] == 'voting':
+        event = 'voting_event'
+    elif item[0] == 'transaction':
+        event = 'transaction_event'
+    elif item[0] == 'block':
+        event = 'block_event'
+
+    add_msg = item[1]
+    for index in range(2, len(item)):
+        add_msg += "." + item[index]
+
+    json_data = {"timestamp": str(timestamp), "type": event, "message": add_msg}
+    requests.request("POST", "http://127.0.0.1:80(URL)", data=json.dump(json_data), headers=header)
+
+    if Main_form is None:
         logging.debug(data)
     else:
         Main_form.add_queue_data(data)
 
 
 def add_peer(title, subtitle, iconfilename):
-    # Main_form.add_queue_data("log."+title + " peer is added.")
-    if Main_form == None:
+    if Main_form is None:
         logging.debug(title + "("+subtitle+") peer is added.")
     else:
         Main_form.add_node(title, subtitle, iconfilename)

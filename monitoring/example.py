@@ -4,4 +4,9 @@
 import time
 
 if __name__ == '__main__':
-    print(int(round(time.time()*1000.0)))
+    t = time.time()
+    localtime = time.localtime(t)
+    print(localtime)
+    mktime = time.mktime(localtime)
+    local = int(round(mktime*1000.0))
+    print(str(local))

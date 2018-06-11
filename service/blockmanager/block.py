@@ -1,5 +1,7 @@
+import time
+
 class BlockHeader():
-    def __init__(self, prev_hash, nonce, merkle_root, vote_result, timestamp):
+    def __init__(self, prev_hash, nonce, merkle_root, vote_result):
         """
         :param prev_hash:
         :param nonce:
@@ -19,7 +21,7 @@ class BlockHeader():
         self.nonce = nonce
         self.prev_hash = prev_hash
         self.merkle_root = merkle_root
-        self.timestamp = timestamp
+        self.timestamp = int(round(time.time()*1000.0))     # UTC timestamp rule
         self.num_tx = None
 
 
